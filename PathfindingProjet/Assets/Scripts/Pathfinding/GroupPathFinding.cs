@@ -60,12 +60,17 @@ public class GroupPathfinding : MonoBehaviour
 
     private Node findLowestTotalCost()
     {
-        foreach (Node node in currentMap)
-        {
+        Node templowestNodeCost = null;
 
+        foreach (Node node in this.openSet)
+        {
+            if (templowestNodeCost == null || templowestNodeCost.totalNodePathCost > node.totalNodePathCost)
+            {
+                templowestNodeCost = node;
+            }
         }
 
-        return new Node(0,0);
+        return templowestNodeCost;
     }
 
     private float heuristicEstimation(Node start, Node goal)
@@ -77,9 +82,7 @@ public class GroupPathfinding : MonoBehaviour
 
     private float distanceBetween(Node startNode, Node goalNode)
     {
-
-
-        return 0;
+        return Math.Sqrt(Math.Pow(goalNode.position[0] - startNode.position[0], 2) + Math.Pow(goalNode.position[1] - startNode.position[1], 2));
     }
 
     private Stack<Node> reconstructPath(Node currentNode)

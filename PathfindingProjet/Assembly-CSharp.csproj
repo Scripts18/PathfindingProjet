@@ -47,8 +47,10 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\Map\Map.cs" />
+     <Compile Include="Assets\Scripts\Map\MapCreation.cs" />
      <Compile Include="Assets\Scripts\Map\Node.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GroupPathFinding.cs" />
+     <Compile Include="Assets\Scripts\Units\ControlGroup.cs" />
      <Compile Include="Assets\Scripts\Units\Group.cs" />
      <Compile Include="Assets\Scripts\Units\Unit.cs" />
  <Reference Include="UnityEngine.UI">
