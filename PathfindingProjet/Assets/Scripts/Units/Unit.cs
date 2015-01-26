@@ -33,7 +33,7 @@ public class Unit : ControlGroup
 	// Use this for initialization
 	void Start () 
 	{
-        this.target = this.position;
+        
 	}
 
 	// Update is called once per frame
@@ -45,4 +45,10 @@ public class Unit : ControlGroup
         // Move our position a step closer to the target.
         transform.position = Vector3.MoveTowards(transform.position, this.target, step);
 	}
+
+    public void ForceSetPosition(Vector2 _position)
+    {
+        this.target = _position;
+        this.transform.position = _position;
+    }
 }
