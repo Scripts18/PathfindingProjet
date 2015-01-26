@@ -11,7 +11,7 @@ public class Map : MonoBehaviour
 	[SerializeField]private Vector2 mapSize;
 
 	//List containning the rows
-	private List<List<GameObject>> MapNodes = new List<List<GameObject>>();
+	public List<List<GameObject>> Rows = new List<List<GameObject>>();
 
 	void Start () 
 	{
@@ -21,13 +21,13 @@ public class Map : MonoBehaviour
 
 		for(int x = 0; x < this.mapSize[0]; x++)
 		{
-			this.MapNodes.Add(new List<GameObject>());
+			this.Rows.Add(new List<GameObject>());
 
 			for(int y = 0; y < this.mapSize[1]; y++)
 			{
 				Object newNode = GameObject.Instantiate(MapNode, new Vector3(x,y), Quaternion.identity);
 				((GameObject) newNode).transform.parent = this.gameObject.transform;
-				this.MapNodes[x].Add(((GameObject)newNode));
+				this.Rows[x].Add(((GameObject)newNode));
 			}
 		}
 	}

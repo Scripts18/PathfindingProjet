@@ -60,6 +60,11 @@ public class GroupPathfinding : MonoBehaviour
 
     private Node findLowestTotalCost()
     {
+        foreach (Node node in currentMap)
+        {
+
+        }
+
         return new Node(0,0);
     }
 
