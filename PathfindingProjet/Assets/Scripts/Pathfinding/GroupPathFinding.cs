@@ -5,13 +5,13 @@ using System.Collections.Generic;
 public class GroupPathfinding : MonoBehaviour 
 {
     //Already Evaluated Nodes
-    private List<Node> closedSet;
+	private List<Node> closedSet = new List<Node>();
 
     //Nodes to be evaluated, including start node
-    private List<Node> openSet;
+    private List<Node> openSet = new List<Node>();
 
     //Navigated Nodes
-    private Stack<Node> exploredSet;
+	private Stack<Node> exploredSet = new Stack<Node>();
 
     private Map currentMap;
 
