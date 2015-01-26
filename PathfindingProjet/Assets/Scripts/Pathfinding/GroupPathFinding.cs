@@ -44,7 +44,7 @@ public class GroupPathfinding : MonoBehaviour
                 {
                     this.exploredSet.Push(neighbor);
                     neighbor.bestKnownPathCost = tempPathCost;
-                    neighbor.totalNodePathCost = neighbor.bestKnownPathCost + heuristicEstimation(neighbor, goal);
+                    neighbor.CalculateHeuristic(goal.GetPosition());
 
                     if (!this.openSet.Contains(neighbor))
                     {
@@ -73,16 +73,9 @@ public class GroupPathfinding : MonoBehaviour
         return templowestNodeCost;
     }
 
-    private float heuristicEstimation(Node start, Node goal)
-    {
-
-
-        return 0;
-    }
-
     private float distanceBetween(Node startNode, Node goalNode)
     {
-        return Math.Sqrt(Math.Pow(goalNode.position[0] - startNode.position[0], 2) + Math.Pow(goalNode.position[1] - startNode.position[1], 2));
+        return Vector2.Distance(startNode.GetPosition(), goalNode.GetPosition());
     }
 
     private Stack<Node> reconstructPath(Node currentNode)
