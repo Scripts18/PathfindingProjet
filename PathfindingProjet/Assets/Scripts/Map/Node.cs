@@ -64,8 +64,6 @@ public class Node : MonoBehaviour {
 
     public void ResetValuePathfinding()
     {
-        this.bestKnownPathCost = -1;
-        this.totalNodePathCost = -1;
         this.heuristicValue = -1;
     }
 }
