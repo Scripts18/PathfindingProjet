@@ -22,7 +22,7 @@ public class GroupPathfinding : MonoBehaviour
         this.openSet.Add(start);
         start.bestKnownPathCost = 0;
 
-        start.totalNodePathCost = start.bestKnownPathCost + this.heuristicEstimation(start, goal);
+        start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.GetPosition());
 
         while (this.openSet.Count != 0)
         {
