@@ -4,8 +4,6 @@ using System.Collections.Generic;
 
 public class Node : MonoBehaviour {
 
-	[SerializeField]private Vector2 position;
-
     //Best Known Path Cost Through This Node
     public float bestKnownPathCost;
 
@@ -16,11 +14,6 @@ public class Node : MonoBehaviour {
 
     public List<Node> neighbors;
     public GameObject occupiedBy;
-
-	public Node(int x, int y)
-	{
-		this.position = this.transform.position;
-	}
 
 	void Start () 
 	{
@@ -52,16 +45,12 @@ public class Node : MonoBehaviour {
         this.occupiedBy = _object;
     }
 
-    public Vector2 GetPosition()
-    {
-        return this.position;
-    }
 
     public float CalculateHeuristic(Vector2 _goalPosition)
     {
         if (this.heuristicValue < 0)
         {
-            this.heuristicValue = System.Math.Abs(_goalPosition[0] - this.position[0]) + System.Math.Abs(_goalPosition[1] - this.position[1]);
+            this.heuristicValue = System.Math.Abs(_goalPosition[0] - this.transform.position[0]) + System.Math.Abs(_goalPosition[1] - this.transform.position[1]);
         }
 
         return this.heuristicValue;

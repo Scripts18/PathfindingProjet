@@ -88,8 +88,7 @@ public class Map : MonoBehaviour
         }
         else
         {
-			newUnit.transform.position.Set(node.GetPosition()[0], node.GetPosition()[1], 0);
-			newUnit.ForceSetPosition(node.GetPosition());
+			newUnit.GetComponent<Unit>().ForceSetPosition(node.transform.position);
         }
 
         return node;
