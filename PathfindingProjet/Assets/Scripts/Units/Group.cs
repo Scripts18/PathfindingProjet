@@ -6,7 +6,7 @@ public class Group : ControlGroup
     [SerializeField]
     private List<ControlGroup> listUnits;
 
-    public void ComputePathfinding()
+    public override void ComputePathfinding()
     {
 
     }

@@ -6,7 +6,7 @@ public class Unit : ControlGroup
 
 	[SerializeField]private Vector2 position;
 
-    public void ComputePathfinding()
+    public override void ComputePathfinding()
     {
 
     }
