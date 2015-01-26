@@ -5,10 +5,25 @@ public class Unit : ControlGroup
 {
 
 	[SerializeField]private Vector2 position;
+    [SerializeField]private Vector2 target;
 
     public override void ComputePathfinding()
     {
 
+    }
+
+    public override void moveToPosition(Vector2 _position)
+    {
+        moveUnitTo(_position);
+    }
+    public override void moveToPosition(int _x, int _y)
+    {
+        moveUnitTo(new Vector2(_x, _y));
+    }
+
+    private void moveUnitTo(Vector2 _position)
+    {
+        this.target = _position;
     }
 
 	// Use this for initialization
@@ -20,6 +35,10 @@ public class Unit : ControlGroup
 	// Update is called once per frame
 	void Update () 
 	{
-	    
+        // The step size is equal to speed times frame time.
+        var step = 5 * Time.deltaTime;
+
+        // Move our position a step closer to the target.
+        transform.position = Vector3.MoveTowards(transform.position, this.target, step);
 	}
 }

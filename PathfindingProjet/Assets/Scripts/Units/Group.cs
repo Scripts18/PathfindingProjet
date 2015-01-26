@@ -21,6 +21,23 @@ public class Group : ControlGroup
         this.listUnits.Remove(_unit);
     }
 
+    public override void moveToPosition(Vector2 _position)
+    {
+        moveAllUnitsTo(_position);
+    }
+    public override void moveToPosition(int _x, int _y)
+    {
+        moveAllUnitsTo(new Vector2(_x, _y));
+    }
+
+    private void moveAllUnitsTo(Vector2 _position)
+    {
+        foreach (ControlGroup controlGroup in this.listUnits)
+        {
+            controlGroup.moveToPosition(_position);
+        }
+    }
+
 	void Start () 
     {
         this.listUnits = new List<ControlGroup>();
