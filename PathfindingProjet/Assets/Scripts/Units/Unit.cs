@@ -1,10 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Unit : MonoBehaviour 
+public class Unit : ControlGroup 
 {
 
 	[SerializeField]private Vector2 position;
+
+    public void ComputePathfinding()
+    {
+
+    }
 
 	// Use this for initialization
 	void Start () 
@@ -15,6 +20,6 @@ public class Unit : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-	
+	    
 	}
 }
