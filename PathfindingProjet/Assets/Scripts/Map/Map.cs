@@ -9,6 +9,7 @@ public class Map : MonoBehaviour
 
 	//Size of the map (x , y)
 	[SerializeField]private Vector2 mapSize;
+    [SerializeField]private int numberUnits;
 
 	//List containning the rows
 	public List<List<GameObject>> MapTiles = new List<List<GameObject>>();
@@ -36,6 +37,9 @@ public class Map : MonoBehaviour
             }
         }
 
+        float sizeX = this.mapSize[0] - 1;
+        float sizeY = this.mapSize[1] - 1;
+
         for (int x = 0; x < this.mapSize[0]; x++)
         {
             for (int y = 0; y < this.mapSize[1]; y++)
@@ -50,15 +54,35 @@ public class Map : MonoBehaviour
                 {
                     currentNode.AddNeighbor(this.MapTiles[x][y - 1]);
                 }
-                if (x < this.mapSize[0])
+                if (x < sizeX)
                 {
                     currentNode.AddNeighbor(this.MapTiles[x + 1][y]);
                 }
-                if (y < this.mapSize[1])
+                if (y < sizeY)
                 {
                     currentNode.AddNeighbor(this.MapTiles[x][y + 1]);
                 }
             }
         }
+
+        for (int i = 0; i < this.numberUnits; ++i)
+        {
+            GameObject unit = null;
+            //Gameobject unit Instantiate
+            this.placeUnit().SetOccupingObject(unit);
+        }
+    }
+
+    private Node placeUnit()
+    {
+        int x = (int)Random.Range(0, this.mapSize[0]);
+        int y = (int)Random.Range(0, this.mapSize[1]);
+        Node node = this.MapTiles[x][y].GetComponent<Node>();
+        if (node.IsOccupied())
+        {
+            node = this.placeUnit();
+        }
+
+        return node;
     }
 }
