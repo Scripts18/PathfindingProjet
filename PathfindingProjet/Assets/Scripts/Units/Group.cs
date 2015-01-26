@@ -29,6 +29,10 @@ public class Group : ControlGroup
     {
         moveAllUnitsTo(new Vector2(_x, _y));
     }
+    public override void moveToPosition(GameObject _gameobject)
+    {
+        moveAllUnitsTo(_gameobject.transform.position);
+    }
 
     private void moveAllUnitsTo(Vector2 _position)
     {
