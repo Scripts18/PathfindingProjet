@@ -70,20 +70,25 @@ public class Map : MonoBehaviour
 
         for (int i = 0; i < this.numberUnits; ++i)
         {
-            GameObject unit = null;
+			GameObject newUnit = (GameObject)GameObject.Instantiate(Unit, Vector3.zero, Quaternion.identity);
             //Gameobject unit Instantiate
-            this.placeUnit().SetOccupingObject(unit);
+			this.placeUnit(newUnit).SetOccupingObject(newUnit);
         }
     }
 
-    private Node placeUnit()
+    private Node placeUnit(GameObject newUnit)
     {
         int x = (int)Random.Range(0, this.mapSize[0]);
         int y = (int)Random.Range(0, this.mapSize[1]);
         Node node = this.MapTiles[x][y].GetComponent<Node>();
+
         if (node.IsOccupied())
         {
-            node = this.placeUnit();
+            node = this.placeUnit(newUnit);
+        }
+        else
+        {
+					newUnit.transform.position.Set(node.GetPosition()[0], node.GetPosition()[1], 0);
         }
 
         return node;
