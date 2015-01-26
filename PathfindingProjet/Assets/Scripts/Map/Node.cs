@@ -47,6 +47,11 @@ public class Node : MonoBehaviour {
         return this.occupiedBy;
     }
 
+    public void SetOccupingObject(GameObject _object)
+    {
+        this.occupiedBy = _object;
+    }
+
     public Vector2 GetPosition()
     {
         return this.position;
