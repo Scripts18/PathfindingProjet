@@ -20,6 +20,10 @@ public class Unit : ControlGroup
     {
         moveUnitTo(new Vector2(_x, _y));
     }
+    public override void moveToPosition(GameObject _gameobject)
+    {
+        moveUnitTo(_gameobject.transform.position);
+    }
 
     private void moveUnitTo(Vector2 _position)
     {
