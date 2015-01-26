@@ -51,4 +51,14 @@ public class Node : MonoBehaviour {
     {
         return this.position;
     }
+
+    public float CalculateHeuristic(Vector2 _goalPosition)
+    {
+        if (this.heuristicValue < 0)
+        {
+            this.heuristicValue = System.Math.Abs(_goalPosition[0] - this.position[0]) + System.Math.ABS(_goalPosition[1] - this.position[1]);
+        }
+
+        return this.heuristicValue;
+    }
 }
