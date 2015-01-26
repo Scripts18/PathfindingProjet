@@ -7,6 +7,9 @@ public class Map : MonoBehaviour
 	//Node Prefab
 	[SerializeField]private GameObject MapNode;
 
+	//Unit Prefab
+	[SerializeField]private GameObject Unit;
+
 	//Size of the map (x , y)
 	[SerializeField]private Vector2 mapSize;
     [SerializeField]private int numberUnits;
