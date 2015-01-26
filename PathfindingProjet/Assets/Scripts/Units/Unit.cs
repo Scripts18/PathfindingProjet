@@ -33,7 +33,7 @@ public class Unit : ControlGroup
 	// Use this for initialization
 	void Start () 
 	{
-	
+        this.target = this.position;
 	}
 
 	// Update is called once per frame
