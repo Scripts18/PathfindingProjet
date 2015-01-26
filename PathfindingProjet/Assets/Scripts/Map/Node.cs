@@ -21,12 +21,16 @@ public class Node : MonoBehaviour {
 
 	void Start () 
 	{
-        this.linkNeighbor();
 		this.gameObject.name = "(" + this.gameObject.transform.position.x.ToString() + ", " + this.gameObject.transform.position.y.ToString() + ")";
 	}
 
-    private void linkNeighbor()
+    public void AddNeighbor(Node _node)
     {
+        this.neighbors.Add(_node);
+    }
 
+    public void AddNeighbor(GameObject _node)
+    {
+        this.neighbors.Add(_node.GetComponent<Node>());
     }
 }
