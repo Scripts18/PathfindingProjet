@@ -8,7 +8,7 @@ public class Unit : ControlGroup
 	[SerializeField]private Vector3 position;
     [SerializeField]private Vector3 target;
 
-    private Stack<Node> movementOrders;
+    [SerializeField]private Stack<Node> movementOrders = new Stack<Node>();
 
     public override void ComputePathfinding()
     {
