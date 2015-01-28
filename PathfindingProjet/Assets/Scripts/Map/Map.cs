@@ -8,7 +8,8 @@ public class Map : MonoBehaviour
 	[SerializeField]private GameObject MapNode;
 
 	//Unit Prefab
-	[SerializeField]private GameObject Unit;
+	[SerializeField]private GameObject unit;
+    [SerializeField]private GameObject group;
 
 	//Size of the map (x , y)
 	[SerializeField]private Vector3 mapSize;
@@ -68,12 +69,22 @@ public class Map : MonoBehaviour
             }
         }
 
+        GameObject newGroup = (GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity);
+        Group groupOne = newGroup.GetComponent<Group>();
+
         for (int i = 0; i < this.numberUnits; ++i)
         {
-			GameObject newUnit = (GameObject)GameObject.Instantiate(Unit, Vector3.zero, Quaternion.identity);
+			GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
             //Gameobject unit Instantiate
 			this.placeUnit(newUnit).SetOccupingObject(newUnit);
+            newUnit.GetComponent<Unit>().SetMap(this);
+            groupOne.AddUnit(newUnit.GetComponent<Unit>());
         }
+
+        //groupOne.SetSquareFormation();
+
+        
+
     }
 
     private Node placeUnit(GameObject newUnit)

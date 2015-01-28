@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MapNode: {fileID: 100000, guid: 0fe206cb2f94b5747b2f9cbac78238b2, type: 2}
-  Unit: {fileID: 100000, guid: 9a7102ca32e262047a895fc254a11782, type: 2}
+  unit: {fileID: 100000, guid: 9a7102ca32e262047a895fc254a11782, type: 2}
+  group: {fileID: 100000, guid: 667b282b8676c1d4c8c6bed3b9389e8e, type: 2}
   mapSize: {x: 10, y: 10, z: 0}
   numberUnits: 1
 --- !u!1 &2044862072

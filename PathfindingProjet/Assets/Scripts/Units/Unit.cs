@@ -41,6 +41,14 @@ public class Unit : ControlGroup
     }
 
 	// Use this for initialization
+    public void SetMap(Map _map)
+    {
+        if (_map != null)
+        {
+            this.currentMap = _map;
+        }
+    }
+
 	void Start () 
 	{
         this.movementOrders.Push(null);
@@ -52,7 +60,7 @@ public class Unit : ControlGroup
             this.currentMap = gameObjectMap.GetComponent<Map>();
         }
 
-        this.moveUnitTo(new Vector3(9, 9, 0));
+        //this.moveUnitTo(new Vector3(9, 9, 0));
 	}
 
 	// Update is called once per frame
