@@ -7,7 +7,7 @@ public class Unit : ControlGroup
 	[SerializeField]private Vector3 position;
     [SerializeField]private Vector3 target;
 
-    private Stack<Node> movementOrders;
+    private Stack<Node> movementOrders = new Stack<Node>();
 
     //Temporary until UnitPathFinding
     [SerializeField]private GroupPathFinding pathFinding;
