@@ -46,7 +46,7 @@ public class Node : MonoBehaviour {
     }
 
 
-    public float CalculateHeuristic(Vector2 _goalPosition)
+    public float CalculateHeuristic(Vector3 _goalPosition)
     {
         if (this.heuristicValue < 0)
         {

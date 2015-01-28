@@ -37,14 +37,14 @@ public class Group : ControlGroup
     }
     public override void moveToPosition(int _x, int _y)
     {
-        moveAllUnitsTo(new Vector2(_x, _y));
+        moveAllUnitsTo(new Vector3(_x, _y));
     }
     public override void moveToPosition(GameObject _gameobject)
     {
         moveAllUnitsTo(_gameobject.transform.position);
     }
 
-    private void moveAllUnitsTo(Vector2 _position)
+    private void moveAllUnitsTo(Vector3 _position)
     {
         foreach (ControlGroup controlGroup in this.listUnits)
         {
