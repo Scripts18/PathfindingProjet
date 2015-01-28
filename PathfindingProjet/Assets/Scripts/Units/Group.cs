@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Group : ControlGroup 
 {
     [SerializeField]
-    private List<ControlGroup> listUnits;
+    private List<ControlGroup> listUnits = new List<ControlGroup>();
 
     public override void ComputePathfinding()
     {
@@ -31,8 +31,9 @@ public class Group : ControlGroup
         Vector3 positionInFormation = new Vector3(-1, 1, 0);
         Vector3 formationOffset = new Vector3(1, -1, 0);
         Vector3 magicMultiplicator = new Vector3(-1, -1, 0);
-        foreach (ControlGroup controlGroup in this.listUnits)
+        foreach (Unit controlGroup in this.listUnits)
         {
+            Debug.Log("Formation " + (this.transform.position + positionInFormation));
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
             controlGroup.offsetFromCenter = positionInFormation;
             positionInFormation = Vector3.Scale(positionInFormation, formationOffset);
@@ -81,11 +82,12 @@ public class Group : ControlGroup
 
 	void Start () 
     {
-        this.listUnits = new List<ControlGroup>();
+        this.SetSquareFormation(); 
 	}
 	
 	// Update is called once per frame
 	void Update () 
     {
+        
 	}
 }

@@ -52,7 +52,7 @@ public class Unit : ControlGroup
         }
     }
 
-	void Start () 
+	void Awake () 
 	{
         this.movementOrders.Push(null);
 

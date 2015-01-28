@@ -77,11 +77,11 @@ public class Map : MonoBehaviour
 			GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
             //Gameobject unit Instantiate
 			this.placeUnit(newUnit).SetOccupingObject(newUnit);
-            newUnit.GetComponent<Unit>().SetMap(this);
+            //newUnit.GetComponent<Unit>().SetMap(this);
             groupOne.AddUnit(newUnit.GetComponent<Unit>());
         }
 
-        groupOne.SetSquareFormation();
+        //groupOne.SetSquareFormation();
 
         
 
