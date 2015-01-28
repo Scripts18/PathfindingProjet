@@ -11,7 +11,7 @@ public class Map : MonoBehaviour
 	[SerializeField]private GameObject Unit;
 
 	//Size of the map (x , y)
-	[SerializeField]private Vector3mapSize;
+	[SerializeField]private Vector3 mapSize;
     [SerializeField]private int numberUnits;
 
 	//List containning the rows

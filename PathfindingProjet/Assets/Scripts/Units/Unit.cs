@@ -15,6 +15,11 @@ public class Unit : ControlGroup
 
     }
 
+    protected override void calculateCenter()
+    {
+        this.center = this.transform.position;
+    }
+
     public override void moveToPosition(Vector3 _position)
     {
         moveUnitTo(_position);
