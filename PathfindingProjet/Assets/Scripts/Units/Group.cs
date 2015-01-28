@@ -11,6 +11,16 @@ public class Group : ControlGroup
 
     }
 
+    protected override void calculateCenter()
+    {
+        Vector3 sum = new Vector3(0, 0);
+        foreach (ControlGroup controlGroup in this.listUnits)
+        {
+            sum += controlGroup.getCenter();
+        }
+        this.center = sum / this.listUnits.Count;
+    }
+
     public void AddUnit(ControlGroup _unit)
     {
         this.listUnits.Add(_unit);
@@ -21,7 +31,7 @@ public class Group : ControlGroup
         this.listUnits.Remove(_unit);
     }
 
-    public override void moveToPosition(Vector2 _position)
+    public override void moveToPosition(Vector3 _position)
     {
         moveAllUnitsTo(_position);
     }

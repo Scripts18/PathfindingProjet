@@ -75,7 +75,7 @@ public class GroupPathfinding : MonoBehaviour
 
     private float distanceBetween(Node startNode, Node goalNode)
     {
-		return Vector2.Distance(startNode.transform.position, goalNode.transform.position);
+		return Vector3.Distance(startNode.transform.position, goalNode.transform.position);
     }
 
     private Stack<Node> reconstructPath(Node currentNode)
