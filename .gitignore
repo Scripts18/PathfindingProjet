@@ -39,3 +39,11 @@ PathfindingProjet/Library/guidmapper
 *.userprefs
 *.dll
 *.mdb
+*.userprefs
+*.userprefs
+*.sln
+*.sln
+PathfindingProjet/Library/expandedItems
+*.dwlt
+PathfindingProjet/Library/assetDatabase3
+PathfindingProjet/Assets/Scene/Demo.unity
