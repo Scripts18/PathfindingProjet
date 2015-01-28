@@ -11,36 +11,14 @@ public class Group : ControlGroup
 
     }
 
-    protected void calculateCenter()
+    protected override void calculateCenter()
     {
         Vector3 sum = new Vector3(0, 0);
         foreach (ControlGroup controlGroup in this.listUnits)
         {
-            sum += controlGroup.transform.position;
+            sum += controlGroup.getCenter();
         }
-        this.transform.position = sum / this.listUnits.Count;
-    }
-
-    public void SetSquareFormation()
-    {
-        Vector3 positionInFormation = new Vector3(-1, 1, 0);
-        Vector3 formationOffset = new Vector3(1, -1, 0);
-        Vector3 magicMultiplicator = new Vector3(-1, -1, 0);
-        foreach (ControlGroup controlGroup in this.listUnits)
-        {
-            controlGroup.moveToPosition(this.transform.position + positionInFormation);
-            controlGroup.offsetFromCenter = positionInFormation;
-            Vector3.Scale(positionInFormation, formationOffset);
-            Vector3.Scale(formationOffset, magicMultiplicator);
-        }
-    }
-
-    public void CancelAnyFormation()
-    {
-        foreach (ControlGroup controlGroup in this.listUnits)
-        {       
-            controlGroup.offsetFromCenter = Vector3.zero;
-        }
+        this.center = sum / this.listUnits.Count;
     }
 
     public void AddUnit(ControlGroup _unit)
@@ -70,7 +48,7 @@ public class Group : ControlGroup
     {
         foreach (ControlGroup controlGroup in this.listUnits)
         {
-            controlGroup.moveToPosition(_position + controlGroup.offsetFromCenter);
+            controlGroup.moveToPosition(_position);
         }
     }
 
@@ -82,6 +60,6 @@ public class Group : ControlGroup
 	// Update is called once per frame
 	void Update () 
     {
-       this.calculateCenter();
+	
 	}
 }
