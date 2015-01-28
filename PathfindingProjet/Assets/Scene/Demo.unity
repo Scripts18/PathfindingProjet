@@ -85,7 +85,7 @@ GameObject:
   - 114: {fileID: 572406327}
   m_Layer: 0
   m_Name: Map
-  m_TagString: Untagged
+  m_TagString: Map
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -116,7 +116,7 @@ MonoBehaviour:
   MapNode: {fileID: 100000, guid: 0fe206cb2f94b5747b2f9cbac78238b2, type: 2}
   Unit: {fileID: 100000, guid: 9a7102ca32e262047a895fc254a11782, type: 2}
   mapSize: {x: 10, y: 10, z: 0}
-  numberUnits: 3
+  numberUnits: 1
 --- !u!1 &2044862072
 GameObject:
   m_ObjectHideFlags: 0
