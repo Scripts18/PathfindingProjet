@@ -1,11 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Units\Unit.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Pathfinding\GroupPathFinding.cs">
     <Files>
-      <File FileName="PathfindingProjet.sln" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Units\Unit.cs" Line="18" Column="1" />
-      <File FileName="Assets\Scripts\Map\Map.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Map\Node.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Pathfinding\GroupPathFinding.cs" Line="78" Column="84" />
+      <File FileName="Assets\Scripts\Map\Map.cs" Line="69" Column="10" />
+      <File FileName="Assets\Scripts\Units\Unit.cs" Line="51" Column="33" />
+      <File FileName="Assets\Scripts\Map\Node.cs" Line="48" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
