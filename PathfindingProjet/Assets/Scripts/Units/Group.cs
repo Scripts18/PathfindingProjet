@@ -33,13 +33,10 @@ public class Group : ControlGroup
         Vector3 magicMultiplicator = new Vector3(-1, -1, 0);
         foreach (ControlGroup controlGroup in this.listUnits)
         {
-            Debug.Log((this.transform.position + positionInFormation));
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
             controlGroup.offsetFromCenter = positionInFormation;
             positionInFormation = Vector3.Scale(positionInFormation, formationOffset);
             formationOffset = Vector3.Scale(formationOffset, magicMultiplicator);
-            Debug.Log("Offset " );
-            Debug.Log("One loop");
         }
     }
 

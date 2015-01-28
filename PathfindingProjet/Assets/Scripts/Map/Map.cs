@@ -81,7 +81,7 @@ public class Map : MonoBehaviour
             groupOne.AddUnit(newUnit.GetComponent<Unit>());
         }
 
-        //groupOne.SetSquareFormation();
+        groupOne.SetSquareFormation();
 
         
 
