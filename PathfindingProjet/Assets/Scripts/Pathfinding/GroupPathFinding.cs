@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GroupPathfinding : MonoBehaviour 
+public class GroupPathFinding : MonoBehaviour 
 {
     //Already Evaluated Nodes
 	private List<Node> closedSet = new List<Node>();
@@ -10,16 +10,12 @@ public class GroupPathfinding : MonoBehaviour
     //Nodes to be evaluated, including start node
     private List<Node> openSet = new List<Node>();
 
-    //Navigated Nodes
-	private Stack<Node> exploredSet = new Stack<Node>();
-
-    private Map currentMap;
-
     public Stack<Node> PathFinding(Node start, Node goal)
     {
         Node currentNode;
 
         this.openSet.Add(start);
+
         start.bestKnownPathCost = 0;
 
         start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.transform.position);
@@ -30,7 +26,7 @@ public class GroupPathfinding : MonoBehaviour
 
             if (currentNode == goal)
             {
-                return reconstructPath(currentNode);
+                return this.reconstructPath(currentNode);
             }
 
             this.openSet.Remove(currentNode);
@@ -38,13 +34,18 @@ public class GroupPathfinding : MonoBehaviour
 
             foreach (Node neighbor in currentNode.neighbors)
             {
+                if (closedSet.Contains(neighbor))
+                {
+                    continue;
+                }
+
                 float tempPathCost = currentNode.bestKnownPathCost + distanceBetween(currentNode, neighbor);
 
                 if (!this.openSet.Contains(neighbor) || tempPathCost < neighbor.bestKnownPathCost)
                 {
-                    this.exploredSet.Push(neighbor);
+                    neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
-					neighbor.CalculateHeuristic(goal.transform.position);
+					neighbor.totalNodePathCost += neighbor.CalculateHeuristic(goal.transform.position);
 					
 					if (!this.openSet.Contains(neighbor))
                     {
@@ -82,11 +83,12 @@ public class GroupPathfinding : MonoBehaviour
     {
         Stack<Node> totalPath = new Stack<Node>();
 
-        totalPath.Push(currentNode);
+        totalPath.Push(null);
 
-        while (this.exploredSet.Count != 0)
+        while (currentNode.parent != null)
         {
-            totalPath.Push(exploredSet.Pop());
+            totalPath.Push(currentNode);
+            currentNode = currentNode.parent;
         }
 
         return totalPath;
