@@ -10,10 +10,9 @@ public class Node : MonoBehaviour {
     //Estimated Total Cost From Start To Goal Through This Node
     public float totalNodePathCost;
 
-    public float heuristicValue;
-
     public List<Node> neighbors;
     public GameObject occupiedBy;
+    public Node parent;
 
 	void Start () 
 	{
@@ -48,16 +47,6 @@ public class Node : MonoBehaviour {
 
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
-        if (this.heuristicValue < 0)
-        {
-            this.heuristicValue = System.Math.Abs(_goalPosition[0] - this.transform.position[0]) + System.Math.Abs(_goalPosition[1] - this.transform.position[1]);
-        }
-
-        return this.heuristicValue;
-    }
-
-    public void ResetValuePathfinding()
-    {
-        this.heuristicValue = -1;
+        return System.Math.Abs(_goalPosition.x - this.transform.position.x) + System.Math.Abs(_goalPosition.y - this.transform.position.y);
     }
 }

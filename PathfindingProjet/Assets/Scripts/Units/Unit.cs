@@ -4,11 +4,18 @@ using System.Collections.Generic;
 
 public class Unit : ControlGroup 
 {
-
 	[SerializeField]private Vector3 position;
     [SerializeField]private Vector3 target;
 
     [SerializeField]private Stack<Node> movementOrders = new Stack<Node>();
+
+    //Temporary until UnitPathFinding
+    [SerializeField]private GroupPathFinding pathFinding;
+
+    //Testing Purpose 
+    [SerializeField] private Map currentMap;
+
+    public bool isMoving;
 
     public override void ComputePathfinding()
     {
@@ -35,13 +42,22 @@ public class Unit : ControlGroup
 
     private void moveUnitTo(Vector3 _position)
     {
-        this.target = _position;
+        this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
     }
 
 	// Use this for initialization
 	void Start () 
 	{
-        
+        this.movementOrders.Push(null);
+
+        GameObject gameObjectMap = GameObject.FindGameObjectWithTag("Map");
+
+        if (gameObjectMap != null)
+        {
+            this.currentMap = gameObjectMap.GetComponent<Map>();
+        }
+
+        this.moveUnitTo(new Vector3(9, 9, 0));
 	}
 
 	// Update is called once per frame
@@ -53,13 +69,10 @@ public class Unit : ControlGroup
         // Move our position a step closer to the target.
         transform.position = Vector3.MoveTowards(transform.position, this.target, step);
        
-        if (this.transform.position == this.target)
-        {
-            if (this.movementOrders.Peek() != null)
-            {
-                this.target = this.movementOrders.Pop().transform.position;
-            }
-        }
+       if (this.movementOrders.Peek() != null && this.transform.position == this.target)
+       {
+           this.target = this.movementOrders.Pop().transform.position;
+       }
     }
 
     public void ForceSetPosition(Vector3 _position)
