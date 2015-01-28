@@ -1,31 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Unit : ControlGroup 
 {
 
-	[SerializeField]private Vector2 position;
-    [SerializeField]private Vector2 target;
+	[SerializeField]private Vector3 position;
+    [SerializeField]private Vector3 target;
+
+    private Stack<Node> movementOrders;
 
     public override void ComputePathfinding()
     {
 
     }
 
-    public override void moveToPosition(Vector2 _position)
+    public override void moveToPosition(Vector3 _position)
     {
         moveUnitTo(_position);
     }
     public override void moveToPosition(int _x, int _y)
     {
-        moveUnitTo(new Vector2(_x, _y));
+        moveUnitTo(new Vector3(_x, _y));
     }
     public override void moveToPosition(GameObject _gameobject)
     {
         moveUnitTo(_gameobject.transform.position);
     }
 
-    private void moveUnitTo(Vector2 _position)
+    private void moveUnitTo(Vector3 _position)
     {
         this.target = _position;
     }
@@ -44,9 +47,17 @@ public class Unit : ControlGroup
 
         // Move our position a step closer to the target.
         transform.position = Vector3.MoveTowards(transform.position, this.target, step);
-	}
+       
+        if (this.transform.position == this.target)
+        {
+            if (this.movementOrders.Peek() != null)
+            {
+                this.target = this.movementOrders.Pop().transform.position;
+            }
+        }
+    }
 
-    public void ForceSetPosition(Vector2 _position)
+    public void ForceSetPosition(Vector3 _position)
     {
         this.target = _position;
         this.transform.position = _position;
