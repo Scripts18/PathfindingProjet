@@ -99,7 +99,7 @@ public class Unit : ControlGroup
         }
     }
 
-    private void cancelMovements()
+    public void cancelMovements()
     {
         while (this.movementOrders.Count - 1 != 0)
         {
@@ -107,7 +107,7 @@ public class Unit : ControlGroup
         }
     }
 
-    private void changePath(Vector3 newOrder, bool queueMovement)
+    public void changePath(Vector3 newOrder, bool queueMovement)
     {
         Stack<Node> newPath;
 

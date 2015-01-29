@@ -82,14 +82,19 @@ public class GroupPathFinding : MonoBehaviour
     private Stack<Node> reconstructPath(Node currentNode)
     {
         Stack<Node> totalPath = new Stack<Node>();
+        Node parent;
 
         totalPath.Push(null);
 
         while (currentNode.parent != null)
         {
             totalPath.Push(currentNode);
+            parent = ref currentNode;
             currentNode = currentNode.parent;
         }
+
+        this.openSet.Clear();
+        this.closedSet.Clear();
 
         return totalPath;
     }
