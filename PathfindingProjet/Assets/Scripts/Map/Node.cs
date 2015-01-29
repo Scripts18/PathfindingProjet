@@ -41,7 +41,7 @@ public class Node : MonoBehaviour {
 
     public void SetOccupingObject(GameObject _object)
     {
-        this.occupiedBy = _object;
+        this.occupiedBy = (_object);
     }
 
 

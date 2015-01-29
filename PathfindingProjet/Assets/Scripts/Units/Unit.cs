@@ -41,6 +41,8 @@ public class Unit : ControlGroup
     private void moveUnitTo(Vector3 _position)
     {
         this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
+
+        this.doNextMovement = true;
     }
 
 	// Use this for initialization
@@ -54,16 +56,11 @@ public class Unit : ControlGroup
 
 	void Start () 
 	{
-        this.movementOrders.Push(null);
-
-        GameObject gameObjectMap = GameObject.FindGameObjectWithTag("Map");
-
-        if (gameObjectMap != null)
+        if (this.currentMap == null)
         {
+            GameObject gameObjectMap = GameObject.FindGameObjectWithTag("Map");
             this.currentMap = gameObjectMap.GetComponent<Map>();
         }
-
-        //this.moveUnitTo(new Vector3(9, 9, 0));
 	}
 
 	// Update is called once per frame
@@ -91,16 +88,20 @@ public class Unit : ControlGroup
     {
         this.isMoving = false;
 
-        if (this.movementOrders.Peek() != null)
+        if (this.movementOrders.Count - 1 != 0)
         {
             this.target = this.movementOrders.Pop().transform.position;
             this.doNextMovement = true;
+        }
+        else
+        {
+            this.doNextMovement = false;
         }
     }
 
     private void cancelMovements()
     {
-        while (this.movementOrders.Peek() != null)
+        while (this.movementOrders.Count - 1 != 0)
         {
             this.movementOrders.Pop();
         }

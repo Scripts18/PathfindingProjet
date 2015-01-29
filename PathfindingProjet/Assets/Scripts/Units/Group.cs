@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 public class Group : ControlGroup 
 {
-    [SerializeField]
-    private List<ControlGroup> listUnits;
+    [SerializeField]private List<ControlGroup> listUnits = new List<ControlGroup>();
 
     public override void ComputePathfinding()
     {
@@ -14,23 +13,27 @@ public class Group : ControlGroup
     private void calculateCenter()
     {
         Vector3 sum = new Vector3(0, 0, 0);
+
         foreach (ControlGroup controlGroup in this.listUnits)
         {
             sum += controlGroup.transform.position;
         }
+
         if (this.listUnits.Count > 0)
         {
             Vector3 center = sum / this.listUnits.Count;
-            this.transform.position = new Vector3((int)center.x, (int)center.y, 0); ;
+            this.transform.position = new Vector3((int)center.x, (int)center.y, 0);
         }
     }
 
     public void SetSquareFormation()
     {
         this.calculateCenter();
+
         Vector3 positionInFormation = new Vector3(-1, 1, 0);
         Vector3 formationOffset = new Vector3(1, -1, 0);
         Vector3 magicMultiplicator = new Vector3(-1, -1, 0);
+
         foreach (ControlGroup controlGroup in this.listUnits)
         {
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
@@ -78,11 +81,6 @@ public class Group : ControlGroup
             controlGroup.moveToPosition(_position + controlGroup.offsetFromCenter);
         }
     }
-
-	void Start () 
-    {
-        this.listUnits = new List<ControlGroup>();
-	}
 	
 	// Update is called once per frame
 	void Update () 

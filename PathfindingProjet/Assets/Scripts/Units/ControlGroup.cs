@@ -9,5 +9,4 @@ public abstract class ControlGroup : MonoBehaviour
     public abstract void moveToPosition(GameObject _gameobject);
 
     public Vector3 offsetFromCenter;
-
 }
