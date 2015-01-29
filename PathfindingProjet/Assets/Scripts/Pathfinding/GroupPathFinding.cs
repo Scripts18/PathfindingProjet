@@ -45,7 +45,7 @@ public class GroupPathFinding : MonoBehaviour
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
-					neighbor.totalNodePathCost += neighbor.CalculateHeuristic(goal.transform.position);
+					neighbor.totalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
 					
 					if (!this.openSet.Contains(neighbor))
                     {
@@ -89,8 +89,9 @@ public class GroupPathFinding : MonoBehaviour
         while (currentNode.parent != null)
         {
             totalPath.Push(currentNode);
-            parent = ref currentNode;
+            parent = currentNode;
             currentNode = currentNode.parent;
+            parent.ClearParent();
         }
 
         this.openSet.Clear();

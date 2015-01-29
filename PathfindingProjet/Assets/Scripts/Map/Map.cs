@@ -74,7 +74,6 @@ public class Map : MonoBehaviour
 			GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
             Unit newUnitComponent = newUnit.GetComponent<Unit>();
 
-            //Gameobject unit Instantiate
             this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
             newUnitComponent.SetMap(this);
             groupOne.AddUnit(newUnitComponent);
@@ -85,24 +84,19 @@ public class Map : MonoBehaviour
 
     private Node placeUnit(Unit newUnit)
     {
-        //int x = Random.Range(0, (int)this.mapSize[0]);
-        //int y = Random.Range(0, (int)this.mapSize[1]);
-
-        int x = 3;
-        int y = 3;
+        int x = Random.Range(0, (int)this.mapSize[0]);
+        int y = Random.Range(0, (int)this.mapSize[1]);
 
         Node node = this.MapTiles[x][y].GetComponent<Node>();
 
         if (node.IsOccupied())
         {
-           // node = this.placeUnit(newUnit);
+           node = this.placeUnit(newUnit);
         }
         else
         {
-			
+            newUnit.ForceSetPosition(node.transform.position);
         }
-
-        newUnit.ForceSetPosition(node.transform.position);
 
         return node;
     }

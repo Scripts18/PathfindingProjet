@@ -20,6 +20,8 @@ public class Unit : ControlGroup
     public bool isMoving = false;
     private bool doNextMovement = true;
 
+    private Node lastMovement;
+
     public override void ComputePathfinding()
     {
 
@@ -67,7 +69,10 @@ public class Unit : ControlGroup
 	void Update () 
 	{
         // Move our position a step closer to the target.
-        this.transform.position = Vector3.MoveTowards(transform.position, this.target, this.step);
+        if (this.isMoving)
+        {
+            this.transform.position = Vector3.MoveTowards(transform.position, this.target, this.step);
+        }
 
        if (this.transform.position == this.target && this.isMoving)
        {
@@ -75,6 +80,7 @@ public class Unit : ControlGroup
        }
        else if (this.doNextMovement)
        {
+           this.lastMovement.SetOccupingObject(null);
            this.startMoving();
        }
     }
@@ -87,11 +93,12 @@ public class Unit : ControlGroup
     private void movementDone()
     {
         this.isMoving = false;
+        this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
 
         if (this.movementOrders.Count - 1 != 0)
         {
             this.target = this.movementOrders.Pop().transform.position;
-            this.doNextMovement = true;
+            this.doNextMovement = true; 
         }
         else
         {

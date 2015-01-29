@@ -44,6 +44,11 @@ public class Node : MonoBehaviour {
         this.occupiedBy = (_object);
     }
 
+    public void ClearParent()
+    {
+        this.parent = null;
+    }
+
 
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
