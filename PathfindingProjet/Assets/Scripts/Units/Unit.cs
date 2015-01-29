@@ -76,11 +76,12 @@ public class Unit : ControlGroup
 
        if (this.transform.position == this.target && this.isMoving)
        {
-           this.movementDone();
+           this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
+           this.movementDone(); 
        }
        else if (this.doNextMovement)
        {
-           this.lastMovement.SetOccupingObject(null);
+           this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
            this.startMoving();
        }
     }
@@ -93,10 +94,10 @@ public class Unit : ControlGroup
     private void movementDone()
     {
         this.isMoving = false;
-        this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
-
+        
         if (this.movementOrders.Count - 1 != 0)
         {
+            this.lastMovement.SetOccupingObject(null);
             this.target = this.movementOrders.Pop().transform.position;
             this.doNextMovement = true; 
         }
