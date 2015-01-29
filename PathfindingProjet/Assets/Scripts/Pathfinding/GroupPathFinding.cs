@@ -41,7 +41,7 @@ public class GroupPathFinding : MonoBehaviour
 
                 float tempPathCost = currentNode.bestKnownPathCost + distanceBetween(currentNode, neighbor);
 
-                if (!this.openSet.Contains(neighbor) || tempPathCost < neighbor.bestKnownPathCost)
+                if (!this.openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost && tempPathCost != -1))
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
@@ -56,7 +56,7 @@ public class GroupPathFinding : MonoBehaviour
 
         }
 
-        return null;
+        return new Stack<Node>();
     }
 
     private Node findLowestTotalCost()
@@ -93,9 +93,6 @@ public class GroupPathFinding : MonoBehaviour
             currentNode = currentNode.parent;
             parent.ClearParent();
         }
-
-        this.openSet.Clear();
-        this.closedSet.Clear();
 
         return totalPath;
     }
