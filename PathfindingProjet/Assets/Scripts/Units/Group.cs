@@ -26,13 +26,21 @@ public class Group : ControlGroup
         }
     }
 
-    public void SetSquareFormation()
+    public void SetSquareFormation(int _range)
     {
+
         this.calculateCenter();
 
         Vector3 positionInFormation = new Vector3(-1, 1, 0);
         Vector3 formationOffset = new Vector3(1, -1, 0);
         Vector3 magicMultiplicator = new Vector3(-1, -1, 0);
+
+        if (_range < 1)
+        {
+            _range = 1;
+        }
+
+        positionInFormation *= _range;
 
         foreach (ControlGroup controlGroup in this.listUnits)
         {
@@ -41,6 +49,60 @@ public class Group : ControlGroup
             positionInFormation = Vector3.Scale(positionInFormation, formationOffset);
             formationOffset = Vector3.Scale(formationOffset, magicMultiplicator);
         }
+    }
+
+    public void SetCircleFormation(int _radius)
+    {
+
+        this.calculateCenter();
+
+        float angle = 360 / this.listUnits.Count;
+        float currentAngle = 0;
+        float radiansAngle = 0;
+
+        int posX = 0;
+        int posY = 0;
+
+        foreach (ControlGroup controlGroup in this.listUnits)
+        {
+            radiansAngle = currentAngle * Mathf.PI / 180;
+            posX = (int)(System.Math.Cos(radiansAngle) * _radius);
+            posY = (int)(System.Math.Sin(radiansAngle) * _radius);
+            Vector3 positionInFormation = new Vector3(posX, posY, 0);
+            controlGroup.moveToPosition((this.transform.position + positionInFormation));
+            controlGroup.offsetFromCenter = positionInFormation;
+            currentAngle += angle;
+        }
+    }
+
+    public void SetLineFormation(bool _isVertical)
+    {
+        this.calculateCenter();
+
+        int numberUnits = this.listUnits.Count;
+
+        Vector3 formationOffset = new Vector3(0, 0, 0);
+        Vector3 positionInFormation = new Vector3(0, 0, 0);
+        if (_isVertical)
+        {
+            formationOffset.y += 1;
+        }
+        else
+        {
+            formationOffset.x += 1;
+        }
+
+        int half = numberUnits / 2;
+
+        positionInFormation = -half * formationOffset;
+
+        for (int i = 0; i < numberUnits; ++i)
+        {
+            this.listUnits[i].moveToPosition((this.transform.position + positionInFormation));
+            positionInFormation += formationOffset;
+            this.listUnits[i].offsetFromCenter = positionInFormation;
+        }
+
     }
 
     public void CancelAnyFormation()
