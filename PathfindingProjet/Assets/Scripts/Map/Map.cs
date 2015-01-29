@@ -11,7 +11,7 @@ public class Map : MonoBehaviour
 	[SerializeField]private GameObject unit;
     [SerializeField]private GameObject group;
 
-	//Size of the map (x , y)
+	//Size of the map (x , y, time)
 	[SerializeField]private Vector3 mapSize;
     [SerializeField]private int numberUnits;
 
@@ -79,7 +79,7 @@ public class Map : MonoBehaviour
             groupOne.AddUnit(newUnitComponent);
         }
 
-        groupOne.SetSquareFormation();
+        groupOne.SetSquareFormation(1);
     }
 
     private Node placeUnit(Unit newUnit)

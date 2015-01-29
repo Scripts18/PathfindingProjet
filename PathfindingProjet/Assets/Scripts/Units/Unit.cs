@@ -7,7 +7,7 @@ public class Unit : ControlGroup
 	[SerializeField]private Vector3 position;
     [SerializeField]private Vector3 target;
 
-    float step = 5 * Time.deltaTime;
+    [SerializeField]private float step = 5 * Time.deltaTime;
 
     private Stack<Node> movementOrders = new Stack<Node>();
 
@@ -43,7 +43,6 @@ public class Unit : ControlGroup
     private void moveUnitTo(Vector3 _position)
     {
         this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
-
         this.doNextMovement = true;
     }
 
@@ -76,13 +75,17 @@ public class Unit : ControlGroup
 
        if (this.transform.position == this.target && this.isMoving)
        {
-           this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
            this.movementDone(); 
        }
        else if (this.doNextMovement)
        {
            this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
            this.startMoving();
+       }
+
+       if (this.isMoving == false)
+       {
+           this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
        }
     }
 

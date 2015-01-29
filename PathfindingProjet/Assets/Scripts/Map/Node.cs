@@ -10,6 +10,8 @@ public class Node : MonoBehaviour {
     //Estimated Total Cost From Start To Goal Through This Node
     public float totalNodePathCost;
 
+    public List<int> timeReservation = new List<int>();
+
     public List<Node> neighbors;
     public GameObject occupiedBy;
     public Node parent;
@@ -52,6 +54,11 @@ public class Node : MonoBehaviour {
 
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
+        if (this.timeReservation.Contains((int)_goalPosition.x + (int)_goalPosition.y))
+        {
+            return -1;
+        }
+
         return System.Math.Abs(_goalPosition.x - this.transform.position.x) + System.Math.Abs(_goalPosition.y - this.transform.position.y);
     }
 }
