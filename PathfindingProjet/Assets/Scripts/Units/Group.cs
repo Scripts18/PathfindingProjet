@@ -60,15 +60,23 @@ public class Group : ControlGroup
         float currentAngle = 0;
         float radiansAngle = 0;
 
+        float constRadians = (Mathf.PI / 180);
+
         int posX = 0;
         int posY = 0;
 
+
         foreach (ControlGroup controlGroup in this.listUnits)
         {
-            radiansAngle = currentAngle * Mathf.PI / 180;
-            posX = (int)(System.Math.Cos(radiansAngle) * _radius);
-            posY = (int)(System.Math.Sin(radiansAngle) * _radius);
+            radiansAngle = currentAngle * constRadians;
+
+            //posX = Mathf.CeilToInt((float)(System.Math.Cos(radiansAngle) * _radius));
+            //posY = Mathf.CeilToInt((float)(System.Math.Sin(radiansAngle) * _radius));
+            posX = (int)((float)(System.Math.Cos(radiansAngle) * _radius));
+            posY = (int)((float)(System.Math.Sin(radiansAngle) * _radius));
             Vector3 positionInFormation = new Vector3(posX, posY, 0);
+
+            Debug.Log(positionInFormation);
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
             controlGroup.offsetFromCenter = positionInFormation;
             currentAngle += angle;

@@ -7,7 +7,7 @@ public class Unit : ControlGroup
 	[SerializeField]private Vector3 position;
     [SerializeField]private Vector3 target;
 
-    float step = 5 * Time.deltaTime;
+    float step = 50 * Time.deltaTime;
 
     private Stack<Node> movementOrders = new Stack<Node>();
 
