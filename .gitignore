@@ -55,3 +55,6 @@ PathfindingProjet/Library/ScriptAssemblies/Assembly-CSharp.dll
 *.mdb
 *.sln
 *.sln
+*.dll
+*.mdb
+*.sln
