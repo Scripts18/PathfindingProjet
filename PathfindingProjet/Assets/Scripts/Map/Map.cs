@@ -79,7 +79,7 @@ public class Map : MonoBehaviour
             groupOne.AddUnit(newUnitComponent);
         }
 
-        groupOne.SetCircleFormation(60);
+        groupOne.SetCircleFormation(15);
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);

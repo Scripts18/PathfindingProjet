@@ -42,13 +42,17 @@ public class Group : ControlGroup
 
         positionInFormation *= _range;
 
-        foreach (ControlGroup controlGroup in this.listUnits)
+        for (int i = 0; i < 4; ++i)
         {
-            controlGroup.moveToPosition((this.transform.position + positionInFormation));
-            controlGroup.offsetFromCenter = positionInFormation;
+            this.listUnits[i].moveToPosition((this.transform.position + positionInFormation));
+            this.listUnits[i].offsetFromCenter = positionInFormation;
+
+
+
             positionInFormation = Vector3.Scale(positionInFormation, formationOffset);
             formationOffset = Vector3.Scale(formationOffset, magicMultiplicator);
         }
+            
     }
 
     public void SetCircleFormation(int _radius)
@@ -56,7 +60,7 @@ public class Group : ControlGroup
 
         this.calculateCenter();
 
-        float angle = 360 / this.listUnits.Count;
+        float angle = 360.0f / this.listUnits.Count;
         float currentAngle = 0;
         float radiansAngle = 0;
 
@@ -64,6 +68,8 @@ public class Group : ControlGroup
 
         int posX = 0;
         int posY = 0;
+
+        _radius = this.listUnits.Count / 4;
 
 
         foreach (ControlGroup controlGroup in this.listUnits)
@@ -76,7 +82,6 @@ public class Group : ControlGroup
             posY = (int)((float)(System.Math.Sin(radiansAngle) * _radius));
             Vector3 positionInFormation = new Vector3(posX, posY, 0);
 
-            Debug.Log(positionInFormation);
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
             controlGroup.offsetFromCenter = positionInFormation;
             currentAngle += angle;
