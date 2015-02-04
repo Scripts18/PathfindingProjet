@@ -13,6 +13,7 @@ public class Map : MonoBehaviour
 
 	//Size of the map (x , y)
 	[SerializeField]private Vector3 mapSize;
+    [SerializeField]private int percentageObstacles;
     [SerializeField]private int numberUnits;
 
 	//List containning the rows
@@ -24,10 +25,17 @@ public class Map : MonoBehaviour
         this.generateMap();
 	}
 
+    public Vector3 getMapSize()
+    {
+        return this.mapSize;
+    }
+
     private void generateMap()
     {
         Camera.main.orthographicSize = this.mapSize[0] <= this.mapSize[1] ? this.mapSize[0] / 2 + 1 : this.mapSize[1] / 2 + 1;
         Camera.main.transform.position = new Vector3(this.mapSize[0] / 2, this.mapSize[1] / 2, -20);
+
+        bool isObstacle = false;
 
         for (int x = 0; x < this.mapSize[0]; x++)
         {
@@ -35,8 +43,19 @@ public class Map : MonoBehaviour
 
             for (int y = 0; y < this.mapSize[1]; y++)
             {
+                int nodeValue = Random.Range(0, 100);
+                if (nodeValue <= this.percentageObstacles)
+                {
+                    isObstacle = true;
+                }
+                else
+                {
+                    isObstacle = false;
+                }
+
                 Node newNode = ((GameObject)GameObject.Instantiate(MapNode, new Vector3(x, y), Quaternion.identity)).GetComponent<Node>();
                 newNode.gameObject.transform.parent = this.gameObject.transform;
+                //newNode.setObstacle(isObstacle);
                 this.MapTiles[x].Add((newNode));
             }
         }
@@ -79,7 +98,7 @@ public class Map : MonoBehaviour
             groupOne.AddUnit(newUnitComponent);
         }
 
-        groupOne.SetCircleFormation(15);
+        groupOne.SetCircleFormation();
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);

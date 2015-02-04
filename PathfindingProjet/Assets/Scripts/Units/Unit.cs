@@ -29,15 +29,36 @@ public class Unit : ControlGroup
 
     public override void moveToPosition(Vector3 _position)
     {
-        moveUnitTo(_position);
+        validateOrder(_position);
     }
     public override void moveToPosition(int _x, int _y)
     {
-        moveUnitTo(new Vector3(_x, _y));
+        validateOrder(new Vector3(_x, _y));
     }
     public override void moveToPosition(GameObject _gameobject)
     {
-        moveUnitTo(_gameobject.transform.position);
+        validateOrder(_gameobject.transform.position);
+    }
+
+    private void validateOrder(Vector3 _position)
+    {
+        if (_position.x < 0)
+        {
+            _position.Set(0, _position.y, 0);
+        }
+        else if (_position.x > (this.currentMap.getMapSize().x - 1))
+        {
+            _position.Set((this.currentMap.getMapSize().x - 1), _position.y, 0);
+        }
+        if (_position.y < 0)
+        {
+            _position.Set(_position.x, 0, 0);
+        }
+        else if (_position.y > (this.currentMap.getMapSize().y - 1))
+        {
+            _position.Set(_position.x, (this.currentMap.getMapSize().y - 1), 0);
+        }
+        this.moveUnitTo(_position);
     }
 
     private void moveUnitTo(Vector3 _position)
@@ -75,16 +96,16 @@ public class Unit : ControlGroup
             this.transform.position = Vector3.MoveTowards(transform.position, this.target, this.step);
         }
 
-       if (this.transform.position == this.target && this.isMoving)
-       {
+        if (this.transform.position == this.target && this.isMoving)
+        {
            this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
            this.movementDone(); 
-       }
-       else if (this.doNextMovement)
-       {
-           this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
-           this.startMoving();
-       }
+        }
+        else if (this.doNextMovement)
+        {
+             this.lastMovement = this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y];
+             this.startMoving();
+        }
     }
 
     private void startMoving()

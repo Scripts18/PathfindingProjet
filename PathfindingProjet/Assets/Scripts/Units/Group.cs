@@ -55,7 +55,7 @@ public class Group : ControlGroup
             
     }
 
-    public void SetCircleFormation(int _radius)
+    public void SetCircleFormation()
     {
 
         this.calculateCenter();
@@ -69,17 +69,14 @@ public class Group : ControlGroup
         int posX = 0;
         int posY = 0;
 
-        _radius = this.listUnits.Count / 4;
-
+        int radius = this.listUnits.Count / 4;
 
         foreach (ControlGroup controlGroup in this.listUnits)
         {
             radiansAngle = currentAngle * constRadians;
 
-            //posX = Mathf.CeilToInt((float)(System.Math.Cos(radiansAngle) * _radius));
-            //posY = Mathf.CeilToInt((float)(System.Math.Sin(radiansAngle) * _radius));
-            posX = (int)((float)(System.Math.Cos(radiansAngle) * _radius));
-            posY = (int)((float)(System.Math.Sin(radiansAngle) * _radius));
+            posX = (int)((float)(System.Math.Cos(radiansAngle) * radius));
+            posY = (int)((float)(System.Math.Sin(radiansAngle) * radius));
             Vector3 positionInFormation = new Vector3(posX, posY, 0);
 
             controlGroup.moveToPosition((this.transform.position + positionInFormation));
