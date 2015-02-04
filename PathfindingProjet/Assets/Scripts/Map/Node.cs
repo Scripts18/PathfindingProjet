@@ -10,11 +10,13 @@ public class Node : MonoBehaviour {
     //Estimated Total Cost From Start To Goal Through This Node
     public float totalNodePathCost;
 
-    public List<int> timeReservation = new List<int>();
+    public List<float> timeReservation = new List<float>();
 
     public List<Node> neighbors;
     public GameObject occupiedBy;
     public Node parent;
+
+    public bool isUnitWaiting = false;
 
 	void Start () 
 	{

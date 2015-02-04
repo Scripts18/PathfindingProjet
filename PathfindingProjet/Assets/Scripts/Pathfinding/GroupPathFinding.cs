@@ -5,12 +5,12 @@ using System.Collections.Generic;
 public class GroupPathFinding : MonoBehaviour 
 {
     //Already Evaluated Nodes
-	private List<Node> closedSet = new List<Node>();
+	protected List<Node> closedSet = new List<Node>();
 
     //Nodes to be evaluated, including start node
-    private List<Node> openSet = new List<Node>();
+    protected List<Node> openSet = new List<Node>();
 
-    public Stack<Node> PathFinding(Node start, Node goal)
+    public virtual Stack<Node> PathFinding(Node start, Node goal)
     {
         Node currentNode;
 
@@ -59,7 +59,7 @@ public class GroupPathFinding : MonoBehaviour
         return new Stack<Node>();
     }
 
-    private Node findLowestTotalCost()
+    protected Node findLowestTotalCost()
     {
         Node templowestNodeCost = null;
 
@@ -74,12 +74,12 @@ public class GroupPathFinding : MonoBehaviour
         return templowestNodeCost;
     }
 
-    private float distanceBetween(Node startNode, Node goalNode)
+    protected float distanceBetween(Node startNode, Node goalNode)
     {
 		return Vector3.Distance(startNode.transform.position, goalNode.transform.position);
     }
 
-    private Stack<Node> reconstructPath(Node currentNode)
+    protected virtual Stack<Node> reconstructPath(Node currentNode)
     {
         Stack<Node> totalPath = new Stack<Node>();
         Node parent;
