@@ -77,9 +77,10 @@ public class Map : MonoBehaviour
             this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
             newUnitComponent.SetMap(this);
             groupOne.AddUnit(newUnitComponent);
+            newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
         }
 
-        groupOne.SetCircleFormation(15);
+        //groupOne.SetCircleFormation(15);
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);
