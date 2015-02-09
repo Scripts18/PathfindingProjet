@@ -21,7 +21,7 @@ public class GroupPathFinding : MonoBehaviour
         start.bestKnownPathCost = 0;
 
         start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.transform.position);
-        //start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristicReversePathFinding(goal, start);
+
 		ReversePathFinding.CalculateHeuristicReversePathFinding(start, goal);
 		start.totalNodePathCost = ReversePathFinding.abstracDist(start, goal);
 
@@ -31,7 +31,7 @@ public class GroupPathFinding : MonoBehaviour
 
             if (currentNode == goal)
             {
-                return reconstructPath(currentNode); 
+                return reconstructPath(currentNode);
             }
 
             openSet.Remove(currentNode);
@@ -46,13 +46,16 @@ public class GroupPathFinding : MonoBehaviour
 
                 float tempPathCost = currentNode.bestKnownPathCost + distanceBetween(currentNode, neighbor);
 
+				if(neighbor.IsObstacle())
+				{
+					tempPathCost = -1;
+				}
+
                 if ((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost && tempPathCost != -1)) && tempPathCost != currentNode.timeReservation.BinarySearch(tempPathCost) && !currentNode.isUnitWaiting)
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
-					neighbor.totalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
 
-                    //neighbor.totalNodePathCost = neighbor.CalculateHeuristicReversePathFinding(goal, neighbor);
 					ReversePathFinding.CalculateHeuristicReversePathFinding(neighbor, goal);
 					neighbor.totalNodePathCost = ReversePathFinding.abstracDist(neighbor, goal);
 

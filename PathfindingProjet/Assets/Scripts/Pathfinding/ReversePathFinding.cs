@@ -76,6 +76,11 @@ public class ReversePathFinding : MonoBehaviour {
 	
 	public static float abstracDist(Node start, Node goal)
 	{
+		if(goal.IsObstacle())
+		{
+			return -1;
+		}
+
 		if(closedSet.Contains(start))
 		{
 			return start.heuristicBestKnownPathCost;
