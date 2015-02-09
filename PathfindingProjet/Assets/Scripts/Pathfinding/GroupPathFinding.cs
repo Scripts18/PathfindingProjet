@@ -51,7 +51,7 @@ public class GroupPathFinding : MonoBehaviour
 					tempPathCost = -1;
 				}
 
-                if ((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost && tempPathCost != -1)))
+                if (((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost)) && tempPathCost != -1))
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
@@ -77,7 +77,7 @@ public class GroupPathFinding : MonoBehaviour
 
         foreach (Node node in openSet)
         {
-            if (templowestNodeCost == null || templowestNodeCost.totalNodePathCost > node.totalNodePathCost)
+            if (templowestNodeCost == null || templowestNodeCost.totalNodePathCost > node.totalNodePathCost && !node.IsObstacle())
             {
                 templowestNodeCost = node;
             }

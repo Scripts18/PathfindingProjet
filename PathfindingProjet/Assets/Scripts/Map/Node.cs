@@ -25,7 +25,7 @@ public class Node : MonoBehaviour {
 
     public Node heuristicParent;
 
-    public bool isUnitWaiting = false;
+    public bool isReserved = false;
 
     public int depth = 0;
 
