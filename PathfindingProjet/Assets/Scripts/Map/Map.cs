@@ -87,24 +87,25 @@ public class Map : MonoBehaviour
             }
         }
 
-        bool isNewObstacle = false;
+        float mapPercentageLimit =(float)  (this.mapSize.x * this.mapSize.y * 0.2);
+
+        List<Node> listNodeChecked = new List<Node>();
         foreach (List<Node> row in this.MapTiles)
         {
             foreach (Node node in row)
             {
                 if (!node.IsObstacle())
                 {
-                    isNewObstacle = true;
-                    foreach (Node neighbor in node.neighbors)
+                    listNodeChecked = this.getLinkedTiles(node, listNodeChecked);
+                    if (listNodeChecked.Count <= mapPercentageLimit)
                     {
-                        if (!neighbor.IsObstacle())
+                        foreach (Node nodeToChange in listNodeChecked)
                         {
-                            isNewObstacle = false;
-                            break;
+                            nodeToChange.setAsObstacle(true);
                         }
                     }
-                    node.setAsObstacle(isNewObstacle);
                 }
+                listNodeChecked.Clear();
             }
         }
 
@@ -125,6 +126,21 @@ public class Map : MonoBehaviour
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);
+    }
+
+    private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)
+    {
+        _listNodes.Add(_origin);
+
+        foreach (Node neighbor in _origin.neighbors)
+        {
+            if (!_listNodes.Contains(neighbor) && !neighbor.IsObstacle())
+            {
+                _listNodes = getLinkedTiles(neighbor, _listNodes);
+            }
+        }
+
+        return _listNodes;
     }
 
     private Node placeUnit(Unit newUnit)

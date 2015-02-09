@@ -83,7 +83,7 @@ public class Unit : ControlGroup
         Node newPosition = _origin;
         Node tempNode = null;
 
-        if (!_origin.IsObstacle() && !_origin.IsOccupied())
+        if (!_origin.IsObstacle())
         {
             return newPosition;
         }
@@ -106,7 +106,11 @@ public class Unit : ControlGroup
 
     private void moveUnitTo(Vector3 _position)
     {
+<<<<<<< HEAD
 
+=======
+        //this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>().isUnitWaiting = false;
+>>>>>>> origin/master
         this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
 
 		if(this.movementOrders.Count - 1 > 0)
