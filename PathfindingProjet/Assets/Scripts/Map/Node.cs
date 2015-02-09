@@ -47,7 +47,7 @@ public class Node : MonoBehaviour {
         this.isObstacle = _isObstacle;
         if (this.isObstacle)
         {
-            this.transform.GetComponent<SpriteRenderer>().color = new Color(100, 0, 0);
+            this.transform.GetComponent<SpriteRenderer>().color = new Color(90, 55, 5);
         }
     }
 
