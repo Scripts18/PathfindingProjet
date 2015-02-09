@@ -27,6 +27,8 @@ public class Node : MonoBehaviour {
 
     public bool isUnitWaiting = false;
 
+    public int depth = 0;
+
 	void Start () 
 	{
 		this.gameObject.name = "(" + this.gameObject.transform.position.x.ToString() + ", " + this.gameObject.transform.position.y.ToString() + ")";
@@ -47,7 +49,7 @@ public class Node : MonoBehaviour {
         this.isObstacle = _isObstacle;
         if (this.isObstacle)
         {
-            this.transform.GetComponent<SpriteRenderer>().color = new Color(90, 55, 5);
+			this.transform.GetComponent<SpriteRenderer>().color = new Color(90, 55, 5);
         }
     }
 

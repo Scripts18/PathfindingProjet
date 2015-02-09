@@ -58,8 +58,55 @@ public class Unit : ControlGroup
         {
             _position.Set(_position.x, (this.currentMap.getMapSize().y - 1), 0);
         }
+
+		Node checkedNode = this.currentMap.MapTiles [(int)_position.x] [(int)_position.y].GetComponent<Node>();
+        Node newPosition = this.getNewPosition(0, checkedNode);
+
+        if (newPosition != null)
+        {
+            Debug.Log("New position at : " + newPosition.transform.position.ToString() + " from : " + _position.ToString());
+            _position = newPosition.transform.position;
+            
+        }
+		
         this.moveUnitTo(_position);
     }
+
+	private Node getNewPosition(int _depth, Node _origin)
+	{
+        _origin.depth = _depth;
+        if (_depth > 5)
+        {
+            return _origin;
+        }
+        
+
+        Node newPosition = _origin;
+        Node tempNode = null;
+
+        if (!_origin.IsObstacle() && !_origin.IsOccupied())
+        {
+            Debug.Log("I'm a chewchew");
+            return newPosition;
+
+        }
+        else
+        {
+            Debug.Log("I'm a gummy bear");
+            newPosition.depth += 10000;
+        }
+
+        foreach (Node neighbor in _origin.neighbors)
+        {
+            tempNode = this.getNewPosition((_depth + 1), neighbor);
+            if (tempNode.depth < newPosition.depth)
+            {
+                newPosition = tempNode;
+            }
+        }
+
+        return newPosition;
+	}
 
     private void moveUnitTo(Vector3 _position)
     {

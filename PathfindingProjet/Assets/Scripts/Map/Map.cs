@@ -97,10 +97,10 @@ public class Map : MonoBehaviour
             this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
             newUnitComponent.SetMap(this);
             groupOne.AddUnit(newUnitComponent);
-            newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
+            //newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
         }
 		
-        //groupOne.SetCircleFormation();
+        groupOne.SetCircleFormation();
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);
@@ -113,7 +113,7 @@ public class Map : MonoBehaviour
 
         Node node = this.MapTiles[x][y].GetComponent<Node>();
 
-        if (node.IsOccupied())
+        if (node.IsOccupied() || node.IsObstacle())
         {
            node = this.placeUnit(newUnit);
         }

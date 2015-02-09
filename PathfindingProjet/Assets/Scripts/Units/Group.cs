@@ -69,7 +69,7 @@ public class Group : ControlGroup
         int posX = 0;
         int posY = 0;
 
-        int radius = this.listUnits.Count / 4;
+        int radius = (this.listUnits.Count / 4) + 1;
 
         foreach (ControlGroup controlGroup in this.listUnits)
         {
