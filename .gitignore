@@ -58,3 +58,6 @@ PathfindingProjet/Library/ScriptAssemblies/Assembly-CSharp.dll
 *.dll
 *.mdb
 *.sln
+PathfindingProjet/Library/assetDatabase3
+*.dll
+*.mdb

@@ -98,12 +98,8 @@ public class Map : MonoBehaviour
             groupOne.AddUnit(newUnitComponent);
             newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
         }
-
-<<<<<<< HEAD
-        //groupOne.SetCircleFormation(15);
-=======
+		
         groupOne.SetCircleFormation();
->>>>>>> origin/master
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
         //groupOne.moveToPosition(10, 8);
