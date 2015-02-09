@@ -20,6 +20,8 @@ public class Node : MonoBehaviour {
     public GameObject occupiedBy;
     public Node parent;
 
+    public bool isObstacle = false;
+
 
     public Node heuristicParent;
 
@@ -33,6 +35,20 @@ public class Node : MonoBehaviour {
     public void AddNeighbor(Node _node)
     {
         this.neighbors.Add(_node);
+    }
+
+    public bool IsObstacle()
+    {
+        return this.isObstacle;
+    }
+
+    public void setAsObstacle(bool _isObstacle)
+    {
+        this.isObstacle = _isObstacle;
+        if (this.isObstacle)
+        {
+            this.transform.GetComponent<SpriteRenderer>().color = new Color(100, 0, 0);
+        }
     }
 
     public void AddNeighbor(GameObject _node)

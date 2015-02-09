@@ -54,6 +54,7 @@ public class Map : MonoBehaviour
                 }
 
                 Node newNode = ((GameObject)GameObject.Instantiate(MapNode, new Vector3(x, y), Quaternion.identity)).GetComponent<Node>();
+                newNode.setAsObstacle(isObstacle);
                 newNode.gameObject.transform.parent = this.gameObject.transform;
                 //newNode.setObstacle(isObstacle);
                 this.MapTiles[x].Add((newNode));
