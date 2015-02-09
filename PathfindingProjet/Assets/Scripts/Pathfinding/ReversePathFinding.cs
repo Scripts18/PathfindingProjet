@@ -12,9 +12,9 @@ public class ReversePathFinding : MonoBehaviour {
 		goal.heuristicBestKnownPathCost = 0;
 		goal.heuristicTotalNodePathCost = goal.CalculateHeuristic(start.transform.position);
 
-		this.closedSet.Clear();
+		closedSet.Clear();
 
-		this.resumeReversePathFinding(goal);
+		resumeReversePathFinding(goal);
 	}
 
 
@@ -26,8 +26,8 @@ public class ReversePathFinding : MonoBehaviour {
 		{
 			currentNode = findLowestTotalCost();
 
-			this.openSet.Remove(currentNode);
-			this.closedSet.Add(currentNode);
+			openSet.Remove(currentNode);
+			closedSet.Add(currentNode);
 			
 			if (currentNode == goal)
 			{
@@ -40,12 +40,12 @@ public class ReversePathFinding : MonoBehaviour {
 
 				float tempHeuristicCost = Node.distanceBetween(neighbor, goal);
 
-				if(!this.openSet.Contains(neighbor) && this.closedSet.Contains(neighbor))
+				if(!openSet.Contains(neighbor) && closedSet.Contains(neighbor))
 				{
-					this.openSet.Add(neighbor);
+					openSet.Add(neighbor);
 				}
 
-				if(this.openSet.Contains(neighbor) && tempHeuristicCost < neighbor.heuristicBestKnownPathCost)
+				if(openSet.Contains(neighbor) && tempHeuristicCost < neighbor.heuristicBestKnownPathCost)
 				{
 					neighbor.heuristicBestKnownPathCost = tempHeuristicCost;
 				}
@@ -62,7 +62,7 @@ public class ReversePathFinding : MonoBehaviour {
 	{
 		Node templowestNodeCost = null;
 		
-		foreach (Node node in this.openSet)
+		foreach (Node node in openSet)
 		{
 			if (templowestNodeCost == null || templowestNodeCost.heuristicTotalNodePathCost > node.heuristicTotalNodePathCost)
 			{
@@ -74,14 +74,14 @@ public class ReversePathFinding : MonoBehaviour {
 	}
 
 	
-	public static int abstracDist(Node start, Node goal)
+	public static float abstracDist(Node start, Node goal)
 	{
-		if(this.closedSet.Contains(start))
+		if(closedSet.Contains(start))
 		{
 			return start.heuristicBestKnownPathCost;
 		}
 
-		if(this.resumeReversePathFinding(start))
+		if(resumeReversePathFinding(start))
 		{
 			return start.heuristicBestKnownPathCost;
 		}
