@@ -74,7 +74,7 @@ public class ReversePathFinding : MonoBehaviour {
 	}
 
 	
-	public int abstracDist(Node start, Node goal)
+	public static int abstracDist(Node start, Node goal)
 	{
 		if(this.closedSet.Contains(start))
 		{
