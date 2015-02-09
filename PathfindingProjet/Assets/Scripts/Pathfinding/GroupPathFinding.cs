@@ -12,7 +12,7 @@ public class GroupPathFinding : MonoBehaviour
 
     public Stack<Node> PathFinding(Node start, Node goal)
     {
-        Debug.Log(goal.transform.position);
+        //Debug.Log(goal.transform.position);
 
         Node currentNode;
 
@@ -51,7 +51,7 @@ public class GroupPathFinding : MonoBehaviour
 					tempPathCost = -1;
 				}
 
-                if ((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost && tempPathCost != -1)) && tempPathCost != currentNode.timeReservation.BinarySearch(tempPathCost) && !currentNode.isUnitWaiting)
+                if ((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost && tempPathCost != -1)))
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
