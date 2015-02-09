@@ -140,6 +140,7 @@ public class Map : MonoBehaviour
         }
         else
         {
+			node.isReserved = true;
             newUnit.ForceSetPosition(node.transform.position);
         }
 

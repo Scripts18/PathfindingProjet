@@ -76,7 +76,7 @@ public class ReversePathFinding : MonoBehaviour {
 	
 	public static float abstracDist(Node start, Node goal)
 	{
-		if(goal.IsObstacle())
+		if(goal.IsObstacle() && !goal.isReserved)
 		{
 			return -1;
 		}
