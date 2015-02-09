@@ -87,6 +87,27 @@ public class Map : MonoBehaviour
             }
         }
 
+        bool isNewObstacle = false;
+        foreach (List<Node> row in this.MapTiles)
+        {
+            foreach (Node node in row)
+            {
+                if (!node.IsObstacle())
+                {
+                    isNewObstacle = true;
+                    foreach (Node neighbor in node.neighbors)
+                    {
+                        if (!neighbor.IsObstacle())
+                        {
+                            isNewObstacle = false;
+                            break;
+                        }
+                    }
+                    node.setAsObstacle(isNewObstacle);
+                }
+            }
+        }
+
         Group groupOne = ((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>();
 
         for (int i = 0; i < this.numberUnits; ++i)

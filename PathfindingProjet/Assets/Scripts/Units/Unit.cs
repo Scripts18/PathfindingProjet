@@ -64,7 +64,6 @@ public class Unit : ControlGroup
 
         if (newPosition != null)
         {
-            Debug.Log("New position at : " + newPosition.transform.position.ToString() + " from : " + _position.ToString());
             _position = newPosition.transform.position;
             
         }
@@ -75,7 +74,7 @@ public class Unit : ControlGroup
 	private Node getNewPosition(int _depth, Node _origin)
 	{
         _origin.depth = _depth;
-        if (_depth > 5)
+        if (_depth > 3)
         {
             return _origin;
         }
@@ -86,13 +85,10 @@ public class Unit : ControlGroup
 
         if (!_origin.IsObstacle() && !_origin.IsOccupied())
         {
-            Debug.Log("I'm a chewchew");
             return newPosition;
-
         }
         else
         {
-            Debug.Log("I'm a gummy bear");
             newPosition.depth += 10000;
         }
 
