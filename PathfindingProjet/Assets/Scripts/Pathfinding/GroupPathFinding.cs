@@ -20,13 +20,11 @@ public class GroupPathFinding : MonoBehaviour
 
         start.bestKnownPathCost = 0;
 
-        //start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.transform.position);
-        start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristicReversePathFinding(goal, start);
+        start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.transform.position);
 
         while (this.openSet.Count != 0)
         {
             currentNode = this.findLowestTotalCost();
-            Debug.Log(currentNode.totalNodePathCost);
 
             if (currentNode == goal)
             {
@@ -49,10 +47,7 @@ public class GroupPathFinding : MonoBehaviour
                 {
                     neighbor.parent = currentNode;
                     neighbor.bestKnownPathCost = tempPathCost;
-					//neighbor.totalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
-
-                    neighbor.totalNodePathCost = neighbor.CalculateHeuristicReversePathFinding(goal, neighbor);
-                    Debug.Log(neighbor.totalNodePathCost);
+					neighbor.totalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
 
 					if (!this.openSet.Contains(neighbor))
                     {
@@ -99,7 +94,6 @@ public class GroupPathFinding : MonoBehaviour
             parent = currentNode;
             currentNode = currentNode.parent;
             parent.ClearParent();
-            Debug.Log(currentNode.transform.position);
         }
 
         return totalPath;

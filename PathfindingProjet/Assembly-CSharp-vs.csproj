@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\Map\Map.cs" />
      <Compile Include="Assets\Scripts\Map\Node.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GroupPathFinding.cs" />
+     <Compile Include="Assets\Scripts\Pathfinding\ReversePathFinding.cs" />
      <Compile Include="Assets\Scripts\Units\ControlGroup.cs" />
      <Compile Include="Assets\Scripts\Units\Group.cs" />
      <Compile Include="Assets\Scripts\Units\Unit.cs" />
