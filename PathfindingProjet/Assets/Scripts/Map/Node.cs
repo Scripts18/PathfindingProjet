@@ -5,14 +5,14 @@ using System.Collections.Generic;
 public class Node : MonoBehaviour {
 
     //Best Known Path Cost Through This Node
-    public float bestKnownPathCost;
+    public float actualCostInitialState;
 
-    public float heuristicBestKnownPathCost;
+    public float heuristicActualCostInitialState;
 
     //Estimated Total Cost From Start To Goal Through This Node
-    public float totalNodePathCost;
+    public float estimatedTotalNodePathCost;
 
-    public float heuristicTotalNodePathCost;
+    public float heuristicEstimatedTotalNodePathCost;
 
     public List<float> timeReservation = new List<float>();
 

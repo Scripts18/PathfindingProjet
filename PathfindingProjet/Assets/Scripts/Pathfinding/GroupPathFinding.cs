@@ -12,66 +12,70 @@ public class GroupPathFinding : MonoBehaviour
 
     public Stack<Node> PathFinding(Node start, Node goal)
     {
-        //Debug.Log(goal.transform.position);
+        Debug.Log(goal.transform.position);
 
 	    Node currentNode;
 
 	    openSet.Add(start);
 
-	    start.bestKnownPathCost = 0;
+	    start.actualCostInitialState = 0;
 
-	    start.totalNodePathCost = start.bestKnownPathCost + start.CalculateHeuristic(goal.transform.position);
+	    start.estimatedTotalNodePathCost = start.actualCostInitialState + start.CalculateHeuristic(goal.transform.position);
+        Debug.Log(start.estimatedTotalNodePathCost);
+		//ReversePathFinding.CalculateHeuristicReversePathFinding(start, goal);
+		start.estimatedTotalNodePathCost = ReversePathFinding.abstracDist(start, goal);
+        Debug.Log(start.estimatedTotalNodePathCost);
 
-		ReversePathFinding.CalculateHeuristicReversePathFinding(start, goal);
-		start.totalNodePathCost = ReversePathFinding.abstracDist(start, goal);
+		if(start.estimatedTotalNodePathCost != -1)
+		{
+		    while (openSet.Count != 0)
+		    {
+		        currentNode = findLowestTotalCost();
 
-	    while (openSet.Count != 0)
-	    {
-	        currentNode = findLowestTotalCost();
+		        if (currentNode == goal)
+		        {
+					goal.timeReservation.Add(-1);
+		            return reconstructPath(currentNode);
+		        }
 
-	        if (currentNode == goal)
-	        {
-				goal.timeReservation.Add(-1);
-	            return reconstructPath(currentNode);
-	        }
+		        openSet.Remove(currentNode);
+		        closedSet.Add(currentNode);
 
-	        openSet.Remove(currentNode);
-	        closedSet.Add(currentNode);
+		        foreach (Node neighbor in currentNode.neighbors)
+		        {
+		            if (closedSet.Contains(neighbor))
+		            {
+		                continue;
+		            }
 
-	        foreach (Node neighbor in currentNode.neighbors)
-	        {
-	            if (closedSet.Contains(neighbor))
-	            {
-	                continue;
-	            }
+		            float tempPathCost = currentNode.actualCostInitialState + currentNode.CalculateHeuristic(neighbor.transform.position);
 
-	            float tempPathCost = currentNode.bestKnownPathCost + distanceBetween(currentNode, neighbor);
+					if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved || (this.findHighestTotalCost(neighbor) != tempPathCost && neighbor.timeReservation.Contains(-1)))
+					{
+						tempPathCost = -1;
+					}
 
-				if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved || (this.findHighestTotalCost(neighbor) != tempPathCost && neighbor.timeReservation.Contains(-1)))
-				{
-					tempPathCost = -1;
-				}
+		            if (((!openSet.Contains(neighbor) || (tempPathCost < currentNode.actualCostInitialState)) && tempPathCost != -1))
+		            {
+		                neighbor.parent = currentNode;
+		                neighbor.actualCostInitialState = tempPathCost;
 
-	            if (((!openSet.Contains(neighbor) || (tempPathCost < neighbor.bestKnownPathCost)) && tempPathCost != -1))
-	            {
-	                neighbor.parent = currentNode;
-	                neighbor.bestKnownPathCost = tempPathCost;
+						//ReversePathFinding.CalculateHeuristicReversePathFinding(neighbor, goal);
+						neighbor.estimatedTotalNodePathCost = ReversePathFinding.abstracDist(neighbor, goal);
+						neighbor.timeReservation.Add(tempPathCost);
 
-					ReversePathFinding.CalculateHeuristicReversePathFinding(neighbor, goal);
-					neighbor.totalNodePathCost = ReversePathFinding.abstracDist(neighbor, goal);
-					neighbor.timeReservation.Add(tempPathCost);
+						if (!openSet.Contains(neighbor))
+		                {
+		                    openSet.Add(neighbor);
+		                }
+		            }
+		        }
 
-					if (!openSet.Contains(neighbor))
-	                {
-	                    openSet.Add(neighbor);
-	                }
-	            }
-	        }
-
-	    }
+		    }
+		}
 
 
-        return new Stack<Node>();
+        return null;
     }
 
     protected Node findLowestTotalCost()
@@ -80,7 +84,7 @@ public class GroupPathFinding : MonoBehaviour
 
         foreach (Node node in openSet)
         {
-            if (templowestNodeCost == null || templowestNodeCost.totalNodePathCost > node.totalNodePathCost && !node.IsObstacle())
+            if (templowestNodeCost == null || templowestNodeCost.estimatedTotalNodePathCost > node.estimatedTotalNodePathCost && !node.IsObstacle())
             {
                 templowestNodeCost = node;
             }
