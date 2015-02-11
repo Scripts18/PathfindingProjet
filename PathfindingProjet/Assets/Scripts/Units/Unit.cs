@@ -22,6 +22,10 @@ public class Unit : ControlGroup
 
     private Node lastMovement;
 
+    private Color unitColor;
+    [SerializeField]private GameObject dot;
+
+
     public override void ComputePathfinding()
     {
 
@@ -131,6 +135,7 @@ public class Unit : ControlGroup
             GameObject gameObjectMap = GameObject.FindGameObjectWithTag("Map");
             this.currentMap = gameObjectMap.GetComponent<Map>();
         }
+        this.unitColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
 	}
 
 	// Update is called once per frame
@@ -145,6 +150,9 @@ public class Unit : ControlGroup
         if (this.transform.position == this.target && this.isMoving)
         {
            this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
+           GameObject newDot = (GameObject) GameObject.Instantiate(this.dot, new Vector3(this.transform.position.x, this.transform.position.y, -5), Quaternion.identity);
+           newDot.GetComponent<SpriteRenderer>().color = this.unitColor;
+            
            this.movementDone(); 
         }
         else if (this.doNextMovement)
@@ -163,10 +171,24 @@ public class Unit : ControlGroup
     {
         this.isMoving = false;
         
-        if (this.movementOrders.Count - 1 > 0)
+        if (this.movementOrders.Count> 0)
         {
             this.lastMovement.SetOccupingObject(null);
-            this.target = this.movementOrders.Pop().transform.position;
+            Node targetNode = this.movementOrders.Pop();
+
+            if (targetNode != null)
+            {
+                this.target = targetNode.transform.position;
+            }
+            else
+            {
+                Debug.Log("NPE with " + this.movementOrders.Count + " moves left.");
+                if(this.movementOrders.Count > 0)
+                {
+                    Debug.Log("NPE But still have move orders");
+                    this.target = this.movementOrders.Pop().transform.position;
+                }
+            }
             this.doNextMovement = true; 
         }
         else
@@ -183,7 +205,7 @@ public class Unit : ControlGroup
         }
     }
 
-    public void changePath(Vector3 newOrder, bool queueMovement)
+    public override void changePath(Vector3 newOrder)
     {
         Stack<Node> newPath;
 
@@ -198,10 +220,7 @@ public class Unit : ControlGroup
 
         Stack<Node> concatStack = new Stack<Node>();
 
-        if (queueMovement)
-        {
-            this.cancelMovements();
-        }
+        this.cancelMovements();
 
         for(int i = 0; i < newPath.Count - 1; i++)
         {
@@ -212,6 +231,35 @@ public class Unit : ControlGroup
         {
             this.movementOrders.Push(concatStack.Pop());
         }  
+    }
+
+    public override void queuePath(Vector3 _newOrder)
+    {
+        //var elem = result.ElementAt(1);
+        int count = this.movementOrders.Count;
+        List<Node> node = new List<Node>();
+        node.AddRange(this.movementOrders.ToArray());
+
+        /*Stack<Node> newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
+
+        Stack<Node> concatStack = new Stack<Node>();
+
+        for (int i = 0; i < newPath.Count - 1; i++)
+        {
+            concatStack.Push(this.movementOrders.Pop());
+        }
+
+        for (int i = 0; i < concatStack.Count - 1; i++)
+        {
+            Debug.Log("Added to Queue");
+            Node nodeToPush = concatStack.Pop();
+            if (nodeToPush != null)
+            {
+                newPath.Push(nodeToPush);
+            }
+        }
+        this.movementOrders = newPath;*/
+
     }
 
     public void ForceSetPosition(Vector3 _position)

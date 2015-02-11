@@ -110,6 +110,7 @@ public class Map : MonoBehaviour
         }
 
         Group groupOne = ((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>();
+        groupOne.SetMap(this);
 
         for (int i = 0; i < this.numberUnits; ++i)
         {
@@ -125,7 +126,7 @@ public class Map : MonoBehaviour
         groupOne.SetCircleFormation();
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
-        //groupOne.moveToPosition(10, 8);
+        groupOne.moveToPosition(10, 8);
     }
 
     private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)

@@ -116,8 +116,9 @@ MonoBehaviour:
   MapNode: {fileID: 100000, guid: 0fe206cb2f94b5747b2f9cbac78238b2, type: 2}
   unit: {fileID: 100000, guid: 9a7102ca32e262047a895fc254a11782, type: 2}
   group: {fileID: 100000, guid: 667b282b8676c1d4c8c6bed3b9389e8e, type: 2}
-  mapSize: {x: 50, y: 50, z: 0}
-  numberUnits: 1
+  mapSize: {x: 20, y: 20, z: 0}
+  percentageObstacles: -1
+  numberUnits: 8
 --- !u!1 &2044862072
 GameObject:
   m_ObjectHideFlags: 0

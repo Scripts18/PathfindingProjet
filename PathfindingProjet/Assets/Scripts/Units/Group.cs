@@ -5,9 +5,19 @@ public class Group : ControlGroup
 {
     [SerializeField]private List<ControlGroup> listUnits = new List<ControlGroup>();
 
+    [SerializeField]private GroupPathFinding pathFinding;
+    [SerializeField]private Map currentMap;
+
+    private Stack<Node> movementOrders = new Stack<Node>();
+
     public override void ComputePathfinding()
     {
 
+    }
+
+    public void SetMap(Map _map)
+    {
+        this.currentMap = _map;
     }
 
     private void calculateCenter()
@@ -51,13 +61,11 @@ public class Group : ControlGroup
 
             positionInFormation = Vector3.Scale(positionInFormation, formationOffset);
             formationOffset = Vector3.Scale(formationOffset, magicMultiplicator);
-        }
-            
+        }   
     }
 
     public void SetCircleFormation()
     {
-
         this.calculateCenter();
 
         float angle = 360.0f / this.listUnits.Count;
@@ -112,7 +120,6 @@ public class Group : ControlGroup
             positionInFormation += formationOffset;
             this.listUnits[i].offsetFromCenter = positionInFormation;
         }
-
     }
 
     public void CancelAnyFormation()
@@ -148,9 +155,54 @@ public class Group : ControlGroup
 
     private void moveAllUnitsTo(Vector3 _position)
     {
+        if (_position.x < 0)
+        {
+            _position.Set(0, _position.y, 0);
+        }
+        else if (_position.x > (this.currentMap.getMapSize().x - 1))
+        {
+            _position.Set((this.currentMap.getMapSize().x - 1), _position.y, 0);
+        }
+        if (_position.y < 0)
+        {
+            _position.Set(_position.x, 0, 0);
+        }
+        else if (_position.y > (this.currentMap.getMapSize().y - 1))
+        {
+            _position.Set(_position.x, (this.currentMap.getMapSize().y - 1), 0);
+        }
+
+        this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
+        int stackCount = this.movementOrders.Count;
+        int numberMoves = (int)Mathf.Sqrt(stackCount) + 1;
+
+        Debug.Log("Move group with " + (stackCount / numberMoves) + " moves.");
+        for (int i = 0; i < stackCount; ++i)
+        {
+            Node target = this.movementOrders.Pop();
+            if (i % numberMoves == 0 && target != null)
+            {
+                foreach (ControlGroup controlGroup in this.listUnits)
+                {
+                    controlGroup.queuePath(target.transform.position + controlGroup.offsetFromCenter);
+                }
+            }
+        }
+    }
+
+    public override void changePath(Vector3 newOrder)
+    {
         foreach (ControlGroup controlGroup in this.listUnits)
         {
-            controlGroup.moveToPosition(_position + controlGroup.offsetFromCenter);
+            controlGroup.changePath(newOrder);
+        }
+    }
+
+    public override void queuePath(Vector3 _newOrder)
+    {
+        foreach (ControlGroup controlGroup in this.listUnits)
+        {
+            controlGroup.queuePath(_newOrder);
         }
     }
 	

@@ -76,6 +76,7 @@ MonoBehaviour:
   pathFinding: {fileID: 11400002}
   currentMap: {fileID: 0}
   isMoving: 0
+  dot: {fileID: 100000, guid: 48bb5473923742841ac75bf772e2437c, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
