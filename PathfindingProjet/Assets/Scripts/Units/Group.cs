@@ -173,7 +173,14 @@ public class Group : ControlGroup
         }
 
         this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
-        int stackCount = this.movementOrders.Count;
+        
+        int stackCount = 0;
+
+        if (this.movementOrders != null)
+        {
+            stackCount = this.movementOrders.Count;
+        }
+
         int numberMoves = (int)Mathf.Sqrt(stackCount) + 1;
 
         Debug.Log("Move group with " + (stackCount / numberMoves) + " moves.");

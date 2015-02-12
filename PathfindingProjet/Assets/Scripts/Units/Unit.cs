@@ -112,7 +112,7 @@ public class Unit : ControlGroup
     {
         this.movementOrders = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_position.x][(int)_position.y].GetComponent<Node>());
 
-		if(this.movementOrders.Count - 1 > 0)
+        if (this.movementOrders != null && this.movementOrders.Count - 1 > 0)
 		{
 			this.doNextMovement = true;
 			this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>().isReserved = false;
@@ -170,8 +170,8 @@ public class Unit : ControlGroup
     private void movementDone()
     {
         this.isMoving = false;
-        
-        if (this.movementOrders.Count> 0)
+
+        if (this.movementOrders != null && this.movementOrders.Count > 0)
         {
             this.lastMovement.SetOccupingObject(null);
             Node targetNode = this.movementOrders.Pop();
@@ -183,11 +183,6 @@ public class Unit : ControlGroup
             else
             {
                 Debug.Log("NPE with " + this.movementOrders.Count + " moves left.");
-                if(this.movementOrders.Count > 0)
-                {
-                    Debug.Log("NPE But still have move orders");
-                    this.target = this.movementOrders.Pop().transform.position;
-                }
             }
             this.doNextMovement = true; 
         }
@@ -236,30 +231,41 @@ public class Unit : ControlGroup
     public override void queuePath(Vector3 _newOrder)
     {
         //var elem = result.ElementAt(1);
-        int count = this.movementOrders.Count;
-        List<Node> node = new List<Node>();
-        node.AddRange(this.movementOrders.ToArray());
+        int count = 0;
+        Stack<Node> newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
 
-        /*Stack<Node> newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
-
-        Stack<Node> concatStack = new Stack<Node>();
-
-        for (int i = 0; i < newPath.Count - 1; i++)
+        if (newPath == null)
         {
-            concatStack.Push(this.movementOrders.Pop());
+            return;
         }
 
-        for (int i = 0; i < concatStack.Count - 1; i++)
+        if (this.movementOrders != null)
         {
-            Debug.Log("Added to Queue");
-            Node nodeToPush = concatStack.Pop();
-            if (nodeToPush != null)
+            count = this.movementOrders.Count;
+            List<Node> node = new List<Node>();
+            node.AddRange(this.movementOrders.ToArray());
+
+            Stack<Node> concatStack = new Stack<Node>();
+
+            for (int i = 0; i < count - 1; i++)
             {
-                newPath.Push(nodeToPush);
+                Node tempNode = this.movementOrders.Pop();
+                if (tempNode != null)
+                {
+                    concatStack.Push(tempNode);
+                }
+            }
+
+            int concatCount = concatStack.Count;
+
+            for (int i = 0; i < concatCount; i++)
+            {
+                Node tempNode = concatStack.Pop();
+                newPath.Push(tempNode);
             }
         }
-        this.movementOrders = newPath;*/
-
+        
+        this.movementOrders = newPath;
     }
 
     public void ForceSetPosition(Vector3 _position)
