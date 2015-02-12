@@ -231,19 +231,22 @@ public class Unit : ControlGroup
     public override void queuePath(Vector3 _newOrder)
     {
         //var elem = result.ElementAt(1);
-        int count = 0;
-        Stack<Node> newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
-
-        if (newPath == null)
-        {
-            return;
-        }
-
+        Stack<Node> newPath;
         if (this.movementOrders != null)
         {
-            count = this.movementOrders.Count;
+
+            int count = this.movementOrders.Count;
             List<Node> node = new List<Node>();
             node.AddRange(this.movementOrders.ToArray());
+
+            newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)node[node.Count - 2].transform.position.x][(int)node[node.Count - 2].transform.position.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
+
+            Debug.Log("Start point : " + newPath.Peek().transform.position);
+
+            if (newPath == null)
+            {
+                return;
+            }
 
             Stack<Node> concatStack = new Stack<Node>();
 
@@ -252,9 +255,11 @@ public class Unit : ControlGroup
                 Node tempNode = this.movementOrders.Pop();
                 if (tempNode != null)
                 {
+
                     concatStack.Push(tempNode);
                 }
             }
+            Debug.Log("End point : " + concatStack.Peek().transform.position);
 
             int concatCount = concatStack.Count;
 
@@ -263,6 +268,10 @@ public class Unit : ControlGroup
                 Node tempNode = concatStack.Pop();
                 newPath.Push(tempNode);
             }
+        }
+        else
+        {
+            newPath = this.pathFinding.PathFinding(this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].GetComponent<Node>(), this.currentMap.MapTiles[(int)_newOrder.x][(int)_newOrder.y].GetComponent<Node>());
         }
         
         this.movementOrders = newPath;

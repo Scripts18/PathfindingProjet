@@ -79,7 +79,10 @@ public class Group : ControlGroup
 
         int radius = (this.listUnits.Count / 4) + 1;
 
-        foreach (ControlGroup controlGroup in this.listUnits)
+        List<Vector3> listPosition = new List<Vector3>();
+
+
+        for (int i = 0; i < this.listUnits.Count; ++i)
         {
             radiansAngle = currentAngle * constRadians;
 
@@ -87,10 +90,38 @@ public class Group : ControlGroup
             posY = (int)((float)(System.Math.Sin(radiansAngle) * radius));
             Vector3 positionInFormation = new Vector3(posX, posY, 0);
 
-            controlGroup.moveToPosition((this.transform.position + positionInFormation));
-            controlGroup.offsetFromCenter = positionInFormation;
+            listPosition.Add(positionInFormation + this.transform.position);
+
             currentAngle += angle;
         }
+
+        List<ControlGroup> tempList = new List<ControlGroup>();
+
+        foreach(ControlGroup controlGroup in this.listUnits)
+        {
+            Vector3 tempPosition = this.getClosestPointToUnit(controlGroup, listPosition);
+            listPosition.Remove(tempPosition);
+            controlGroup.moveToPosition(tempPosition);
+            controlGroup.offsetFromCenter = (tempPosition - this.transform.position);
+        }
+    }
+
+    private Vector3 getClosestPointToUnit(ControlGroup _unit, List<Vector3> _points)
+    {
+        Vector3 selectedPoint = Vector3.zero;
+        double distance = 2048;
+        double tempDistance = 0;
+        foreach (Vector3 vector in _points)
+        {
+            tempDistance = Vector3.Distance(_unit.transform.position, vector);
+            if (tempDistance < distance)
+            {
+                selectedPoint = vector;
+                distance = tempDistance;
+            }
+        }
+
+        return selectedPoint;
     }
 
     public void SetLineFormation(bool _isVertical)
