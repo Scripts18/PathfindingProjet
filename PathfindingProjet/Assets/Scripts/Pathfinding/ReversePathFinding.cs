@@ -5,7 +5,7 @@ using System.Collections.Generic;
 public class ReversePathFinding : MonoBehaviour 
 {
 
-	private static List<Node> openSet = new List<Node>();
+	private static Stack<Node> openSet = new Stack<Node>();
 	private static List<Node> closedSet = new List<Node>();
 
 	public static void CalculateHeuristicReversePathFinding(Node start, Node goal)
@@ -13,7 +13,7 @@ public class ReversePathFinding : MonoBehaviour
 		goal.heuristicActualCostInitialState = 0;
 		goal.heuristicEstimatedTotalNodePathCost = goal.CalculateHeuristic(start.transform.position);
 
-		openSet.Add(goal);
+		openSet.Push(goal);
 		closedSet.Clear();
 
 		resumeReversePathFinding(start, goal);
@@ -26,10 +26,8 @@ public class ReversePathFinding : MonoBehaviour
 
 		while (openSet.Count != 0)
 		{
-			//currentNode = findLowestTotalCost();
-			currentNode = openSet[openSet.Count -1];
+			currentNode = openSet.Pop();
 
-			openSet.Remove(currentNode);
 			closedSet.Add(currentNode);
 			
 			if (currentNode == origin)
@@ -39,19 +37,18 @@ public class ReversePathFinding : MonoBehaviour
 
 			foreach (Node neighbor in currentNode.neighbors)
 			{
-				neighbor.heuristicActualCostInitialState = currentNode.actualCostInitialState + neighbor.CalculateHeuristic(currentNode.transform.position);
+				neighbor.heuristicActualCostInitialState = currentNode.heuristicActualCostInitialState + neighbor.CalculateHeuristic(currentNode.transform.position);
 
 				float tempHeuristicCost = neighbor.CalculateHeuristic(origin.transform.position);
 
-				if(!openSet.Contains(neighbor) && !closedSet.Contains(neighbor))
-				{
-					openSet.Add(neighbor);
-				}
+                if (!openSet.Contains(neighbor) && !closedSet.Contains(neighbor))
+                {
+                    openSet.Push(neighbor);
+                }
 
-				if(openSet.Contains(neighbor) && currentNode.heuristicEstimatedTotalNodePathCost > (neighbor.heuristicActualCostInitialState + tempHeuristicCost))
+				if(openSet.Contains(neighbor) && (currentNode.heuristicEstimatedTotalNodePathCost > (neighbor.heuristicActualCostInitialState + tempHeuristicCost)))
 				{
                     neighbor.heuristicEstimatedTotalNodePathCost = neighbor.heuristicActualCostInitialState + tempHeuristicCost;
-                    openSet.Add(neighbor);
 				}
 
 			}
@@ -61,38 +58,21 @@ public class ReversePathFinding : MonoBehaviour
 		return false;
 	}
 
-	
-	private static Node findLowestTotalCost()
-	{
-		Node templowestNodeCost = null;
-		
-		foreach (Node node in openSet)
-		{
-			if (templowestNodeCost == null || templowestNodeCost.heuristicEstimatedTotalNodePathCost > node.heuristicEstimatedTotalNodePathCost)
-			{
-				templowestNodeCost = node;
-			}
-		}
-		
-		return templowestNodeCost;
-	}
-
-	
 	public static float abstracDist(Node start, Node goal)
 	{
-        if (openSet.Count == 0)
+        if (openSet.Count == 0)  
         {
             CalculateHeuristicReversePathFinding(start, goal);
         }
 
 		if(closedSet.Contains(start))
 		{
-			return start.estimatedTotalNodePathCost;
+            return start.heuristicActualCostInitialState;
 		}
 
 		if(resumeReversePathFinding(start, goal))
 		{
-            return start.estimatedTotalNodePathCost;
+            return start.heuristicActualCostInitialState;
 		}
 
 		return -1;

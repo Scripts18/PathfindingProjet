@@ -12,7 +12,8 @@ public class GroupPathFinding : MonoBehaviour
 
     public Stack<Node> PathFinding(Node start, Node goal)
     {
-        Debug.Log(goal.transform.position);
+        closedSet.Clear();
+        openSet.Clear();
 
 	    Node currentNode;
 
@@ -20,11 +21,10 @@ public class GroupPathFinding : MonoBehaviour
 
 	    start.actualCostInitialState = 0;
 
-	    start.estimatedTotalNodePathCost = start.actualCostInitialState + start.CalculateHeuristic(goal.transform.position);
-        Debug.Log(start.estimatedTotalNodePathCost);
-		//ReversePathFinding.CalculateHeuristicReversePathFinding(start, goal);
+        ReversePathFinding.CalculateHeuristicReversePathFinding(start, goal);
 		start.estimatedTotalNodePathCost = ReversePathFinding.abstracDist(start, goal);
-        Debug.Log(start.estimatedTotalNodePathCost);
+
+        Debug.Log(goal.transform.position);
 
 		if(start.estimatedTotalNodePathCost != -1)
 		{
@@ -48,20 +48,24 @@ public class GroupPathFinding : MonoBehaviour
 		                continue;
 		            }
 
-		            float tempPathCost = currentNode.actualCostInitialState + currentNode.CalculateHeuristic(neighbor.transform.position);
+                    float tempPathCost = ReversePathFinding.abstracDist(currentNode, goal) + currentNode.CalculateHeuristic(neighbor.transform.position);
 
-					if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved || (this.findHighestTotalCost(neighbor) != tempPathCost && neighbor.timeReservation.Contains(-1)))
+					/*if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved || (this.findHighestTotalCost(neighbor) != tempPathCost && neighbor.timeReservation.Contains(-1)))
 					{
 						tempPathCost = -1;
-					}
+					}*/
 
-		            if (((!openSet.Contains(neighbor) || (tempPathCost < currentNode.actualCostInitialState)) && tempPathCost != -1))
+                    if (neighbor.IsObstacle())
+                    {
+                        tempPathCost = -1;
+                    }
+
+		            if (((!openSet.Contains(neighbor) || (tempPathCost < neighbor.actualCostInitialState)) && tempPathCost != -1))
 		            {
 		                neighbor.parent = currentNode;
 		                neighbor.actualCostInitialState = tempPathCost;
 
-						//ReversePathFinding.CalculateHeuristicReversePathFinding(neighbor, goal);
-						neighbor.estimatedTotalNodePathCost = ReversePathFinding.abstracDist(neighbor, goal);
+                        neighbor.estimatedTotalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
 						neighbor.timeReservation.Add(tempPathCost);
 
 						if (!openSet.Contains(neighbor))
@@ -84,7 +88,7 @@ public class GroupPathFinding : MonoBehaviour
 
         foreach (Node node in openSet)
         {
-            if (templowestNodeCost == null || templowestNodeCost.estimatedTotalNodePathCost > node.estimatedTotalNodePathCost && !node.IsObstacle())
+            if ((templowestNodeCost == null || templowestNodeCost.estimatedTotalNodePathCost > node.estimatedTotalNodePathCost) && node.estimatedTotalNodePathCost != -1 && !node.IsObstacle())
             {
                 templowestNodeCost = node;
             }
@@ -122,6 +126,7 @@ public class GroupPathFinding : MonoBehaviour
 
         while (currentNode.parent != null)
         {
+            Debug.Log(currentNode.transform.position);
             totalPath.Push(currentNode);
             parent = currentNode;
             currentNode = currentNode.parent;

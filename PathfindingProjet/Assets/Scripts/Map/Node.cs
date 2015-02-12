@@ -81,10 +81,10 @@ public class Node : MonoBehaviour {
 
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
-        if (this.timeReservation.Contains((int)_goalPosition.x + (int)_goalPosition.y))
+        /*if (this.timeReservation.Contains((int)_goalPosition.x + (int)_goalPosition.y))
         {
             return -1;
-        }
+        }*/
 
         return System.Math.Abs(_goalPosition.x - this.transform.position.x) + System.Math.Abs(_goalPosition.y - this.transform.position.y);
     }
