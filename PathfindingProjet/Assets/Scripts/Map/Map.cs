@@ -35,6 +35,8 @@ public class Map : MonoBehaviour
         Camera.main.orthographicSize = this.mapSize[0] <= this.mapSize[1] ? this.mapSize[0] / 2 + 1 : this.mapSize[1] / 2 + 1;
         Camera.main.transform.position = new Vector3(this.mapSize[0] / 2, this.mapSize[1] / 2, -20);
 
+        this.percentageObstacles = Random.Range(0, (int)30);
+
         bool isObstacle = false;
 
         for (int x = 0; x < this.mapSize[0]; x++)
@@ -109,24 +111,32 @@ public class Map : MonoBehaviour
             }
         }
 
-        Group groupOne = ((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>();
-        groupOne.SetMap(this);
+        List<Group> listGroups = new List<Group>();
+        int numberGroup = Random.Range(2, (int)4);
+        int numberUnitsRand = Random.Range(4, (int)10);
 
-        for (int i = 0; i < this.numberUnits; ++i)
+        for (int j = 0; j < numberGroup; ++j)
         {
-			GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
-            Unit newUnitComponent = newUnit.GetComponent<Unit>();
+            Group groupOne = ((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>();
+            groupOne.SetMap(this);
 
-            this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
-            newUnitComponent.SetMap(this);
-            groupOne.AddUnit(newUnitComponent);
-            //newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
-        }
+            for (int i = 0; i < numberUnitsRand; ++i)
+            {
+			    GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
+                Unit newUnitComponent = newUnit.GetComponent<Unit>();
+
+                this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
+                newUnitComponent.SetMap(this);
+                groupOne.AddUnit(newUnitComponent);
+                //newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
+            }
 		
-        groupOne.SetCircleFormation();
-        //groupOne.SetLineFormation(false);
-        //groupOne.SetSquareFormation(3);
-        groupOne.moveToPosition(10, 8);
+            groupOne.SetCircleFormation();
+            //groupOne.SetLineFormation(false);
+            //groupOne.SetSquareFormation(3);
+            //groupOne.moveToPosition(2 + Random.Range(1, (int)10), 2 + Random.Range(1, (int)10));
+            listGroups.Add(groupOne);
+        }
     }
 
     private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)
