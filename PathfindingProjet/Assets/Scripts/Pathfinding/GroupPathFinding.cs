@@ -26,7 +26,7 @@ public class GroupPathFinding : MonoBehaviour
 
         Debug.Log(goal.transform.position);
 
-		if(start.estimatedTotalNodePathCost != -1)
+		if(start.estimatedTotalNodePathCost != Mathf.Infinity)
 		{
 		    while (openSet.Count != 0)
 		    {
@@ -34,7 +34,7 @@ public class GroupPathFinding : MonoBehaviour
 
 		        if (currentNode == goal)
 		        {
-					goal.timeReservation.Add(-1);
+					//goal.timeReservation.Add(Mathf.Infinity);
 		            return reconstructPath(currentNode);
 		        }
 
@@ -50,22 +50,18 @@ public class GroupPathFinding : MonoBehaviour
 
                     float tempPathCost = ReversePathFinding.abstracDist(currentNode, goal) + currentNode.CalculateHeuristic(neighbor.transform.position);
 
-					/*if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved || (this.findHighestTotalCost(neighbor) != tempPathCost && neighbor.timeReservation.Contains(-1)))
+					if(neighbor.IsObstacle() || neighbor.timeReservation.Contains(tempPathCost) || neighbor.isReserved)
 					{
 						tempPathCost = -1;
-					}*/
+					}
 
-                    if (neighbor.IsObstacle())
-                    {
-                        tempPathCost = -1;
-                    }
-
-		            if (((!openSet.Contains(neighbor) || (tempPathCost < neighbor.actualCostInitialState)) && tempPathCost != -1))
+		            if (!openSet.Contains(neighbor) || (tempPathCost < neighbor.actualCostInitialState))
 		            {
 		                neighbor.parent = currentNode;
 		                neighbor.actualCostInitialState = tempPathCost;
 
                         neighbor.estimatedTotalNodePathCost = neighbor.CalculateHeuristic(goal.transform.position);
+                        Debug.Log(tempPathCost);
 						neighbor.timeReservation.Add(tempPathCost);
 
 						if (!openSet.Contains(neighbor))

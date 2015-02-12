@@ -64,7 +64,7 @@ public class ReversePathFinding : MonoBehaviour
         {
             CalculateHeuristicReversePathFinding(start, goal);
         }
-
+            
 		if(closedSet.Contains(start))
 		{
             return start.heuristicActualCostInitialState;
@@ -75,6 +75,6 @@ public class ReversePathFinding : MonoBehaviour
             return start.heuristicActualCostInitialState;
 		}
 
-		return -1;
+		return Mathf.Infinity;
 	}
 }

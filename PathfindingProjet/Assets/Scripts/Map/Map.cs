@@ -120,13 +120,13 @@ public class Map : MonoBehaviour
             this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
             newUnitComponent.SetMap(this);
             groupOne.AddUnit(newUnitComponent);
-            //newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
+            newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
         }
 		
-        groupOne.SetCircleFormation();
+        //groupOne.SetCircleFormation();
         //groupOne.SetLineFormation(false);
         //groupOne.SetSquareFormation(3);
-        groupOne.moveToPosition(10, 8);
+        //groupOne.moveToPosition(10, 8);
     }
 
     private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)
