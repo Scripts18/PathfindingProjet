@@ -81,11 +81,6 @@ public class Node : MonoBehaviour {
 
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
-        if (this.IsObstacle())
-        {
-            return Mathf.Infinity;
-        }
-
         return System.Math.Abs(_goalPosition.x - this.transform.position.x) + System.Math.Abs(_goalPosition.y - this.transform.position.y);
     }
 

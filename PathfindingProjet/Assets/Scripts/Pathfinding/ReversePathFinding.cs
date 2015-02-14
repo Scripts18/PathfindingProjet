@@ -5,14 +5,15 @@ using System.Collections.Generic;
 public class ReversePathFinding : MonoBehaviour 
 {
 
-	private static Stack<Node> openSet = new Stack<Node>();
-	private static List<Node> closedSet = new List<Node>();
+	private Stack<Node> openSet = new Stack<Node>();
+	private List<Node> closedSet = new List<Node>();
 
-	public static void CalculateHeuristicReversePathFinding(Node start, Node goal)
+	public void CalculateHeuristicReversePathFinding(Node start, Node goal)
 	{
 		goal.heuristicActualCostInitialState = 0;
 		goal.heuristicEstimatedTotalNodePathCost = goal.CalculateHeuristic(start.transform.position);
 
+		openSet.Clear();
 		openSet.Push(goal);
 		closedSet.Clear();
 
@@ -20,7 +21,7 @@ public class ReversePathFinding : MonoBehaviour
 	}
 
 
-	private static bool resumeReversePathFinding(Node origin, Node goal)
+	private bool resumeReversePathFinding(Node origin, Node goal)
 	{
 		Node currentNode = null;
 
@@ -41,14 +42,17 @@ public class ReversePathFinding : MonoBehaviour
 
 				float tempHeuristicCost = neighbor.CalculateHeuristic(origin.transform.position);
 
-                if (!openSet.Contains(neighbor) && !closedSet.Contains(neighbor))
+                if (!openSet.Contains(neighbor) && !closedSet.Contains(neighbor) && !neighbor.IsObstacle())
                 {
                     openSet.Push(neighbor);
                 }
 
-				if(openSet.Contains(neighbor) && (currentNode.heuristicEstimatedTotalNodePathCost > (neighbor.heuristicActualCostInitialState + tempHeuristicCost)))
+				if(!neighbor.IsObstacle())
 				{
-                    neighbor.heuristicEstimatedTotalNodePathCost = neighbor.heuristicActualCostInitialState + tempHeuristicCost;
+					if(openSet.Contains(neighbor) && (currentNode.heuristicEstimatedTotalNodePathCost > (neighbor.heuristicActualCostInitialState + tempHeuristicCost)))
+					{
+                	    neighbor.heuristicEstimatedTotalNodePathCost = neighbor.heuristicActualCostInitialState + tempHeuristicCost;
+					}
 				}
 
 			}
@@ -58,7 +62,7 @@ public class ReversePathFinding : MonoBehaviour
 		return false;
 	}
 
-	public static float abstracDist(Node start, Node goal)
+	public float abstracDist(Node start, Node goal)
 	{
         if (openSet.Count == 0)  
         {
@@ -67,12 +71,14 @@ public class ReversePathFinding : MonoBehaviour
             
 		if(closedSet.Contains(start))
 		{
-            return start.heuristicActualCostInitialState;
+            //return start.heuristicActualCostInitialState;
+			return goal.heuristicEstimatedTotalNodePathCost;
 		}
 
 		if(resumeReversePathFinding(start, goal))
 		{
-            return start.heuristicActualCostInitialState;
+            //return start.heuristicActualCostInitialState;
+			return goal.heuristicEstimatedTotalNodePathCost;
 		}
 
 		return Mathf.Infinity;
