@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class GroupPathFinding : MonoBehaviour 
 {
-
 	[SerializeField]private ReversePathFinding reverseA;
     //Already Evaluated Nodes
 	protected List<Node> closedSet = new List<Node>();
@@ -26,11 +25,7 @@ public class GroupPathFinding : MonoBehaviour
 		reverseA.CalculateHeuristicReversePathFinding(start, goal);
 		start.estimatedTotalNodePathCost = reverseA.abstracDist(start, goal);
 
-        Debug.Log(goal.transform.position);
-		Debug.Log (start.estimatedTotalNodePathCost);
-
-		//if(start.estimatedTotalNodePathCost != Mathf.Infinity)
-		if(true)
+		if(start.estimatedTotalNodePathCost != Mathf.Infinity) // If the destination is unreachable, estimated perfectly using RRA*
 		{
 		    while (openSet.Count != 0)
 		    {
@@ -51,14 +46,21 @@ public class GroupPathFinding : MonoBehaviour
 						continue;
 		            }
 
-					float tempPathCost = currentNode.actualCostInitialState + currentNode.CalculateHeuristic(neighbor.transform.position);
+					//float tempPathCost = currentNode.actualCostInitialState + currentNode.CalculateHeuristic(neighbor.transform.position); Regular A* Algorithm
 
-		            if (!openSet.Contains(neighbor) || (tempPathCost < neighbor.actualCostInitialState))
+					reverseA.CalculateHeuristicReversePathFinding(start, neighbor);
+					float tempPathCost = reverseA.abstracDist(start, neighbor);
+
+
+		            if ((!openSet.Contains(neighbor) || (tempPathCost < neighbor.actualCostInitialState)))
 		            {
 		                neighbor.parent = currentNode;
 		                neighbor.actualCostInitialState = tempPathCost;
 
-                        neighbor.estimatedTotalNodePathCost = tempPathCost + neighbor.CalculateHeuristic(goal.transform.position);
+						//neighbor.estimatedTotalNodePathCost = tempPathCost + neighbor.CalculateHeuristic(goal.transform.position); Regular A* Algorithm
+
+						reverseA.CalculateHeuristicReversePathFinding(neighbor, goal);
+						neighbor.estimatedTotalNodePathCost = tempPathCost + reverseA.abstracDist(neighbor, goal);
 
 						if (!openSet.Contains(neighbor))
 		                {
@@ -99,9 +101,11 @@ public class GroupPathFinding : MonoBehaviour
         Stack<Node> totalPath = new Stack<Node>();
         Node parent;
 
+		bool first = true;
+
         totalPath.Push(null);
 
-        while (currentNode.parent != null)
+        while (currentNode.parent != null)		              
         {
             totalPath.Push(currentNode);
             parent = currentNode;

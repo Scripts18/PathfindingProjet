@@ -115,7 +115,6 @@ public class Unit : ControlGroup
         if (this.movementOrders != null && this.movementOrders.Count - 1 > 0)
 		{
 			this.doNextMovement = true;
-			this.currentMap.MapTiles[(int)this.transform.position.x][(int)this.transform.position.y].GetComponent<Node>().isReserved = false;
 		} 
     }
 

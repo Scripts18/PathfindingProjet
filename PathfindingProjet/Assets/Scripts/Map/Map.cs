@@ -157,7 +157,7 @@ public class Map : MonoBehaviour
         }
         else
         {
-			node.isReserved = true;
+			node.timeReservation.Add(new Vector2(0, Mathf.Infinity));
             newUnit.ForceSetPosition(node.transform.position);
         }
 

@@ -14,18 +14,15 @@ public class Node : MonoBehaviour {
 
     public float heuristicEstimatedTotalNodePathCost;
 
-    public List<float> timeReservation = new List<float>();
+    public List<Vector2> timeReservation = new List<Vector2>();
 
     public List<Node> neighbors;
     public GameObject occupiedBy;
     public Node parent;
 
     public bool isObstacle = false;
-
-
+	
     public Node heuristicParent;
-
-    public bool isReserved = false;
 
     public int depth = 0;
 
