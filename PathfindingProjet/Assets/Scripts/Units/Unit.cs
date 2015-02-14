@@ -151,6 +151,7 @@ public class Unit : ControlGroup
            this.currentMap.MapTiles[(int)this.target.x][(int)this.target.y].SetOccupingObject(this.gameObject);
            GameObject newDot = (GameObject) GameObject.Instantiate(this.dot, new Vector3(this.transform.position.x, this.transform.position.y, -5), Quaternion.identity);
            newDot.GetComponent<SpriteRenderer>().color = this.unitColor;
+		   Map.gameObjects.Add(newDot);
             
            this.movementDone(); 
         }

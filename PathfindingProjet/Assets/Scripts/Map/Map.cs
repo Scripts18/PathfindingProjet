@@ -1,9 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
 public class Map : MonoBehaviour 
 {
+	[SerializeField]InputField numberGroupsField;
+	[SerializeField]InputField numberUnitsField;
+
 	//Node Prefab
 	[SerializeField]private GameObject MapNode;
 
@@ -14,15 +18,61 @@ public class Map : MonoBehaviour
 	//Size of the map (x , y)
 	[SerializeField]private Vector3 mapSize;
     [SerializeField]private int percentageObstacles;
+
+
     [SerializeField]private int numberUnits;
+	[SerializeField]private int numberGroups;
+
+	private List<Group> groups = new List<Group> ();
+	private List<Unit> units = new List<Unit> ();
 
 	//List containning the rows
 	public List<List<Node>> MapTiles = new List<List<Node>>();
 
+	public static List<GameObject> gameObjects = new List<GameObject>();
+
 	void Start () 
 	{
         Application.runInBackground = true;
+
+		this.numberUnits = Random.Range (7, 12);
+		this.numberGroups = Random.Range (1, 3);
+		this.percentageObstacles = Random.Range (5, 20);
+
         this.generateMap();
+	}
+
+	public void Reset()
+	{
+		if (this.numberGroupsField.text.Length > 0 && int.Parse(this.numberGroupsField.text) > 0) 
+		{
+			this.numberGroups = int.Parse(this.numberGroupsField.text);
+		}
+		else
+		{
+			this.numberGroups = Random.Range (1, 3);
+		}
+		
+		if (this.numberUnitsField.text.Length > 0 && int.Parse(this.numberUnitsField.text) > 0)
+		{
+			this.numberUnits = int.Parse(this.numberUnitsField.text);
+		}
+		else
+		{
+			this.numberUnits = Random.Range (7, 12);
+		}
+
+
+		MapTiles.Clear ();
+		groups.Clear ();
+		units.Clear ();
+
+		foreach (GameObject destroyIt in gameObjects) 
+		{
+			Destroy(destroyIt);
+		}
+
+		this.generateMap ();
 	}
 
     public Vector3 getMapSize()
@@ -58,6 +108,7 @@ public class Map : MonoBehaviour
                 newNode.gameObject.transform.parent = this.gameObject.transform;
                 //newNode.setObstacle(isObstacle);
                 this.MapTiles[x].Add((newNode));
+				gameObjects.Add(newNode.gameObject);
             }
         }
 
@@ -109,24 +160,33 @@ public class Map : MonoBehaviour
             }
         }
 
-        Group groupOne = ((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>();
-        groupOne.SetMap(this);
 
-        for (int i = 0; i < this.numberUnits; ++i)
-        {
-			GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
-            Unit newUnitComponent = newUnit.GetComponent<Unit>();
 
-            this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
-            newUnitComponent.SetMap(this);
-            groupOne.AddUnit(newUnitComponent);
-            newUnitComponent.moveToPosition(Random.Range(0, (int)this.mapSize.x), Random.Range(0, (int)this.mapSize.y));
-        }
-		
-        //groupOne.SetCircleFormation();
-        //groupOne.SetLineFormation(false);
-        //groupOne.SetSquareFormation(3);
-        //groupOne.moveToPosition(10, 8);
+		for(int i = 0; i < this.numberGroups; i++)
+		{
+			this.groups.Add(((GameObject)GameObject.Instantiate(this.group, Vector3.zero, Quaternion.identity)).GetComponent<Group>());
+		}
+
+		foreach (Group tempGroup in this.groups) 
+		{
+			tempGroup.SetMap(this);
+
+			for (int i = 0; i < this.numberUnits; ++i)
+			{
+				GameObject newUnit = (GameObject)GameObject.Instantiate(this.unit, Vector3.zero, Quaternion.identity);
+				Unit newUnitComponent = newUnit.GetComponent<Unit>();
+				
+				this.placeUnit(newUnitComponent).SetOccupingObject(newUnit);
+				newUnitComponent.SetMap(this);
+				tempGroup.AddUnit(newUnitComponent);
+				this.units.Add(newUnitComponent);
+				gameObjects.Add(newUnit);
+			}
+
+			gameObjects.Add(tempGroup.gameObject);
+
+			tempGroup.SetCircleFormation();
+		}
     }
 
     private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)
