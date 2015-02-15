@@ -26,21 +26,25 @@ public class Node : MonoBehaviour {
 
     public int depth = 0;
 
+	/// <author>Marc-André Larochelle</author>
 	void Start () 
 	{
 		this.gameObject.name = "(" + this.gameObject.transform.position.x.ToString() + ", " + this.gameObject.transform.position.y.ToString() + ")";
 	}
 
+	/// <author>Guillaume Morin</author>
     public void AddNeighbor(Node _node)
     {
         this.neighbors.Add(_node);
     }
 
+	/// <author>Guillaume Morin</author>
     public bool IsObstacle()
     {
         return this.isObstacle;
     }
 
+	/// <author>Guillaume Morin</author>
     public void setAsObstacle(bool _isObstacle)
     {
         this.isObstacle = _isObstacle;
@@ -50,37 +54,43 @@ public class Node : MonoBehaviour {
         }
     }
 
+	/// <author>Guillaume Morin</author>
     public void AddNeighbor(GameObject _node)
     {
         this.neighbors.Add(_node.GetComponent<Node>());
     }
 
+	/// <author>Guillaume Morin</author>
     public bool IsOccupied()
     {
         return this.occupiedBy != null;
     }
 
+	/// <author>Guillaume Morin</author>
     public GameObject GetOccupingObject()
     {
         return this.occupiedBy;
     }
 
+	/// <author>Guillaume Morin</author>
     public void SetOccupingObject(GameObject _object)
     {
         this.occupiedBy = (_object);
     }
 
+	/// <author>Guillaume Morin</author>
     public void ClearParent()
     {
         this.parent = null;
     }
 
-
+	/// <author>Guillaume Morin</author>
     public float CalculateHeuristic(Vector3 _goalPosition)
     {
         return System.Math.Abs(_goalPosition.x - this.transform.position.x) + System.Math.Abs(_goalPosition.y - this.transform.position.y);
     }
 
+	/// <author>Guillaume Morin</author>
 	public static float distanceBetween(Node startNode, Node goalNode)
     {
         return Vector3.Distance(startNode.transform.position, goalNode.transform.position);

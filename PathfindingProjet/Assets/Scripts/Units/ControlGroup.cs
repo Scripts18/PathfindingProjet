@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <author>Guillaume Morin</author>
 public abstract class ControlGroup : MonoBehaviour
 {
     public abstract void ComputePathfinding();

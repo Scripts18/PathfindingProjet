@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+/// <author>Guillaume Morin</author>
 public class Group : ControlGroup 
 {
     [SerializeField]private List<ControlGroup> listUnits = new List<ControlGroup>();

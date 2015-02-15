@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+/// <author>Marc-André Larochelle</author>
 public class ReversePathFinding : MonoBehaviour 
 {
 

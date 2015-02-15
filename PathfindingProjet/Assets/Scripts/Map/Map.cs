@@ -42,6 +42,7 @@ public class Map : MonoBehaviour
         this.generateMap();
 	}
 
+	/// <author>Marc-André Larochelle</author>
 	public void Reset()
 	{
 		if (this.numberGroupsField.text.Length > 0 && int.Parse(this.numberGroupsField.text) > 0) 
@@ -80,6 +81,7 @@ public class Map : MonoBehaviour
         return this.mapSize;
     }
 
+	/// <author>Guillaume Morin and Marc-André Larochelle</author>
     private void generateMap()
     {
         Camera.main.orthographicSize = this.mapSize[0] <= this.mapSize[1] ? this.mapSize[0] / 2 + 1 : this.mapSize[1] / 2 + 1;
@@ -189,6 +191,7 @@ public class Map : MonoBehaviour
 		}
     }
 
+	/// <author>Guillaume Morin</author>
     private List<Node> getLinkedTiles(Node _origin, List<Node> _listNodes)
     {
         _listNodes.Add(_origin);
@@ -204,6 +207,7 @@ public class Map : MonoBehaviour
         return _listNodes;
     }
 
+	/// <author>Guillaume Morin</author>
     private Node placeUnit(Unit newUnit)
     {
         int x = Random.Range(0, (int)this.mapSize[0]);

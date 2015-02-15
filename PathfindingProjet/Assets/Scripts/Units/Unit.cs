@@ -10,11 +10,9 @@ public class Unit : ControlGroup
     float step = 1 * Time.deltaTime;
 
     private Stack<Node> movementOrders = new Stack<Node>();
-
-    //Temporary until UnitPathFinding
+	
     [SerializeField]private GroupPathFinding pathFinding;
-
-    //Testing Purpose 
+	
     [SerializeField] private Map currentMap;
 
     public bool isMoving = false;
@@ -35,10 +33,12 @@ public class Unit : ControlGroup
     {
         validateOrder(_position);
     }
+
     public override void moveToPosition(int _x, int _y)
     {
         validateOrder(new Vector3(_x, _y));
     }
+
     public override void moveToPosition(GameObject _gameobject)
     {
         validateOrder(_gameobject.transform.position);
@@ -134,10 +134,12 @@ public class Unit : ControlGroup
             GameObject gameObjectMap = GameObject.FindGameObjectWithTag("Map");
             this.currentMap = gameObjectMap.GetComponent<Map>();
         }
+		//Sets a random color for the path debugging points
         this.unitColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), 1f);
 	}
 
-	// Update is called once per frame
+	/// <author>Marc-André Larochelle</author>
+	/// <summary>Movement related updates</summary>
 	void Update () 
 	{
         // Move our position a step closer to the target.
@@ -162,11 +164,13 @@ public class Unit : ControlGroup
         }
     }
 
+	/// <author>Marc-André Larochelle</author>
     private void startMoving()
     {
         this.isMoving = true;
     }
 
+	/// <author>Marc-André Larochelle</author>
     private void movementDone()
     {
         this.isMoving = false;
@@ -180,10 +184,7 @@ public class Unit : ControlGroup
             {
                 this.target = targetNode.transform.position;
             }
-            else
-            {
-                Debug.Log("NPE with " + this.movementOrders.Count + " moves left.");
-            }
+
             this.doNextMovement = true; 
         }
         else
@@ -192,6 +193,7 @@ public class Unit : ControlGroup
         }
     }
 
+	/// <author>Marc-André Larochelle</author>
     public void cancelMovements()
     {
         while (this.movementOrders.Count - 1 != 0)
@@ -200,6 +202,7 @@ public class Unit : ControlGroup
         }
     }
 
+	/// <author>Marc-André Larochelle</author>
     public override void changePath(Vector3 newOrder)
     {
         Stack<Node> newPath;
@@ -228,10 +231,11 @@ public class Unit : ControlGroup
         }  
     }
 
+	/// <author>Guillaume Morin</author>
     public override void queuePath(Vector3 _newOrder)
     {
-        //var elem = result.ElementAt(1);
         Stack<Node> newPath;
+
         if (this.movementOrders != null)
         {
 
@@ -277,6 +281,7 @@ public class Unit : ControlGroup
         this.movementOrders = newPath;
     }
 
+	/// <author>Guillaume Morin</author>
     public void ForceSetPosition(Vector3 _position)
     {
         this.target = _position;
